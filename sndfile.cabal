@@ -1,0 +1,22 @@
+name:                   sndfile
+version:                0.1
+license:                GPL
+copyright:              Stefan Kersten, 2007
+author:                 Stefan Kersten
+maintainer:             sk@k-hornz.de
+stability:              Experimental
+homepage:               http://space.k-hornz.de
+synopsis:               Haskell bindings for libsndfile
+description:            Haskell bindings for libsndfile
+tested-With:            GHC
+build-Depends:          array, base, haskell98
+exposed-Modules:        Sound.Files.Sndfile
+other-Modules:          C2HS
+ghc-Options:            -Wall -O
+extra-libraries:	sndfile
+
+executable:             sndfile-test
+main-Is:                Main.hs
+other-Modules:		Sound.Files.Sndfile
+ghc-Options:            -Wall -O2
+extra-libraries:	sndfile
