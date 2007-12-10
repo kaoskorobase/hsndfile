@@ -5,18 +5,22 @@ copyright:              Stefan Kersten, 2007
 author:                 Stefan Kersten
 maintainer:             sk@k-hornz.de
 stability:              Experimental
-homepage:               http://space.k-hornz.de
+homepage:               http://darcs.k-hornz.de/cgi-bin/darcsweb.cgi?r=hsndfile;a=summary
 synopsis:               Haskell bindings for libsndfile
 description:            Haskell bindings for libsndfile
-tested-With:            GHC
-build-Depends:          array, base, haskell98
-exposed-Modules:        Sound.Files.Sndfile
-other-Modules:          C2HS
-ghc-Options:            -Wall -O
+tested-with:            GHC
+build-depends:          array, base, haskell98
+exposed-modules:        Sound.Files.Sndfile
+other-modules:          C2HS,
+			Sound.Files.Sndfile.Buffer,
+			Sound.Files.Sndfile.Buffer.Storable,
+			Sound.Files.Sndfile.Interface
+ghc-options:            -Wall -O
 extra-libraries:	sndfile
 
 executable:             sndfile-test
-main-Is:                Main.hs
-other-Modules:		Sound.Files.Sndfile
-ghc-Options:            -Wall -O2
+main-is:                Main.hs
+--other-modules:		Sound.Files.Sndfile
+ghc-options:            -Wall -O
 extra-libraries:	sndfile
+hs-source-dirs:		., dist/build

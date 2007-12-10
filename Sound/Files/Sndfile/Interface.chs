@@ -1,47 +1,15 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 {-# OPTIONS_GHC -fglasgow-exts #-}
 
--- | "Sound.Files.Sndfile" provides a Haskell interface to the ubiquitous
--- libsndfile library by Erik de Castro Lopo (visit the author's website at
--- <http://www.mega-nerd.com/libsndfile/>).
-
-module Sound.Files.Sndfile
-(
-    -- *Types
-    Count, Index,
-    -- *Stream format
-    Format(..), defaultFormat,
-    HeaderFormat(..),
-    SampleFormat(..),
-    EndianFormat(..),
-    -- *Stream info
-    Info(..), defaultInfo, checkFormat,
-    -- *Stream handle operations
-    Handle, hInfo, hIsSeekable,
-    IOMode(..), openFile, hFlush, hClose,
-    SeekMode(..), hSeek, hSeekRead, hSeekWrite,
-    -- *I\/O functions
-    hGetSamplesDouble, hGetSamplesFloat,
-    hGetFramesDouble, hGetFramesFloat,
-    hReadFramesDouble, hReadFramesFloat,
-    hPutSamplesDouble, hPutSamplesFloat,
-    hPutFramesDouble, hPutFramesFloat,
-    -- *Exception handling
-    Exception, errorString, catch,
-    -- * Header string field access
-    StringType(..), getString, setString
-) where
+module Sound.Files.Sndfile.Interface where
 
 import C2HS
 import Control.Monad (liftM, when)
 import Control.Exception (catchDyn, throwDyn)
-import Data.Array.Storable
 import Data.Bits
 import Data.Int (Int64)
 import Data.Typeable (Typeable)
---import Foreign.C.Types (CChar)
 import Prelude hiding (catch)
---import System.IO (SeekMode(..))
 import System.IO.Unsafe (unsafePerformIO)
 
 #include <sndfile.h>
@@ -49,16 +17,13 @@ import System.IO.Unsafe (unsafePerformIO)
 {#context lib="libsndfile" prefix="sf"#}
 
 -- ====================================================================
--- Enumerations
+-- Basic types
 
--- libsndfile doesn't use typed enums, so we need to supply them ourselves
--- do some renaming while we're at it
+type Count = Int -- ^ Type for expressing sample counts.
+type Index = Int -- ^ Type for expressing sample indices.
 
 -- ====================================================================
--- Types and data structures
-
-type Count = Int64 -- ^ Type for expressing sample counts.
-type Index = Int64 -- ^ Type for expressing sample indices.
+-- Format
 
 -- | Header format.
 {#enum HeaderFormat {underscoreToCase} deriving (Eq, Show)#}
@@ -164,24 +129,9 @@ data Format = Format {
     endianFormat :: EndianFormat
 } deriving (Eq, Show)
 
--- |The 'Info' structure is for passing data between the calling function and
--- the library when opening a stream for reading or writing.
-data Info = Info {
-    frames :: Count,    -- ^Number of frames in file
-    samplerate :: Int,  -- ^Audio sample rate
-    channels :: Int,    -- ^Number of channels
-    format :: Format,   -- ^Header and sample format
-    sections :: Int,    -- ^Number of sections
-    seekable :: Bool    -- ^'True' when stream is seekable (e.g. local files)
-} deriving (Eq, Show)
-
 -- |Default \'empty\' format, useful when opening files for reading with 'ReadMode'.
 defaultFormat :: Format
 defaultFormat = Format HeaderFormatNone SampleFormatNone EndianFile
-
--- |Default \'empty\' info, useful when opening files for reading with 'ReadMode'.
-defaultInfo :: Info
-defaultInfo   = Info 0 0 0 defaultFormat 0 False
 
 -- Convert CInt to Format
 hsFormat :: CInt -> Format
@@ -200,10 +150,38 @@ hsFormat i =
 cFormat :: Format -> CInt
 cFormat (Format hf sf ef) = (cFromEnum hf) .|. (cFromEnum sf) .|. (cFromEnum ef)
 
+-- ====================================================================
+-- Info
+
+-- |The 'Info' structure is for passing data between the calling function and
+-- the library when opening a stream for reading or writing.
+data Info = Info {
+    frames :: Count,    -- ^Number of frames in file
+    samplerate :: Int,  -- ^Audio sample rate
+    channels :: Int,    -- ^Number of channels
+    format :: Format,   -- ^Header and sample format
+    sections :: Int,    -- ^Number of sections
+    seekable :: Bool    -- ^'True' when stream is seekable (e.g. local files)
+} deriving (Eq, Show)
+
+-- |Default \'empty\' info, useful when opening files for reading with 'ReadMode'.
+defaultInfo :: Info
+defaultInfo   = Info 0 0 0 defaultFormat 0 False
+
+-- |This function allows the caller to check if a set of parameters in the
+-- 'Info' struct is valid before calling 'openFile' ('WriteMode').
+--
+-- 'checkFormat' returns 'True' if the parameters are valid and 'False' otherwise.
+
+{-# NOINLINE checkFormat #-}
+checkFormat :: Info -> Bool
+checkFormat info =
+    unsafePerformIO (with info (liftM cToBool . {#call unsafe sf_format_check#} . castPtr))
+
 -- Storable instance for Info
 instance Storable (Info) where
-    alignment x = alignment (undefined :: CInt) -- hmm
-    sizeOf x = {#sizeof INFO#}
+    alignment _ = alignment (undefined :: CInt) -- hmm
+    sizeOf _ = {#sizeof INFO#}
     -- Unmarshall Info from C representation
     peek ptr = do
         frames     <- liftM fromIntegral $ {#get SF_INFO.frames#} ptr
@@ -246,8 +224,11 @@ errorString (Exception s) = s
 catch :: IO a -> (Exception -> IO a) -> IO a
 catch = catchDyn
 
+throw :: Exception -> a
+throw = throwDyn
+
 raiseError :: Handle -> IO ()
-raiseError handle = liftM (throwDyn . Exception) $ (peekCString $ {#call pure sf_strerror#} (hPtr handle))
+raiseError handle = liftM (throw . Exception) $ (peekCString $ {#call pure sf_strerror#} (hPtr handle))
 
 checkHandle :: HandlePtr -> IO HandlePtr
 checkHandle handle = do
@@ -256,20 +237,7 @@ checkHandle handle = do
     return handle
 
 -- ====================================================================
--- format info
-
--- |This function allows the caller to check if a set of parameters in the
--- 'Info' struct is valid before calling 'openFile' ('WriteMode').
---
--- 'checkFormat' returns 'True' if the parameters are valid and 'False' otherwise.
-
-{-# NOINLINE checkFormat #-}
-checkFormat :: Info -> Bool
-checkFormat info =
-    unsafePerformIO (with info (liftM cToBool . {#call unsafe sf_format_check#} . castPtr))
-
--- ====================================================================
--- handle operations
+-- Handle operations
 
 -- | Abstract file handle.
 data Handle = Handle {
@@ -288,9 +256,6 @@ enum IOMode
     ReadWriteMode   = SFM_RDWR
 };
 #endc
-
-hIsSeekable :: Handle -> IO Bool
-hIsSeekable = return . seekable . hInfo
 
 -- |When opening a file for read ('ReadMode'), the format field should be set
 -- to 'defaultFormat' before calling 'openFile'. The only exception to this is
@@ -322,8 +287,8 @@ openFile filePath ioMode info =
 -- |The 'hClose' function closes the stream, deallocates its internal buffers
 -- and returns () on success or signals an 'Exception' otherwise.
 hClose :: Handle -> IO ()
-hClose (Handle _ handle) = do
-    {#call unsafe sf_close#} handle
+hClose handle = do
+    {#call unsafe sf_close#} $ hPtr handle
     checkHandle nullPtr
     return ()
 
@@ -334,88 +299,10 @@ hFlush :: Handle -> IO ()
 hFlush (Handle _ handle) = {#call unsafe sf_write_sync#} handle
 
 -- ====================================================================
--- I/O helpers
-
--- TODO: include offset and count arguments
-
-bufferSize b = liftM $ uncurry (-) . getBounds
-clipFrame offset count frames
-    | offset <= 0 = (0, min count frames)
-    | offset >= frames = (frames-1, 0)
-    | otherwise = (offset, min count (frames - offset))
-
---offset count buffersize
-
-{-# INLINE hIOSamples #-}
-hIOSamples :: (Integral n, Ix i, Integral i, Storable a') =>
-                (HandlePtr -> (Ptr a) -> n -> (IO n)) ->
-                Handle -> (StorableArray i a') ->
-                --Count -> Count ->
-                IO Count
-hIOSamples cFunc (Handle _ handle) buffer = do
-    size <- liftM (cIntConv . rangeSize) $ getBounds buffer
-    result <- withStorableArray buffer (\ptr -> liftM fromIntegral $ cFunc handle (castPtr ptr) size)
-    checkHandle handle
-    touchStorableArray buffer
-    return $ cIntConv result
-
-{-# INLINE hIOFrames #-}
-hIOFrames :: (Integral n, Integral i, Ix i, Storable a') =>
-             (HandlePtr -> (Ptr a) -> n -> (IO n)) ->
-             Handle -> (StorableArray i a') -> IO Count
-hIOFrames cFunc (Handle info handle) buffer = do
-    size <- getBounds buffer >>= (\bounds -> return $ cIntConv $ quot (rangeSize bounds) (fromIntegral $ channels info))
-    result <- withStorableArray buffer (\ptr -> liftM fromIntegral $ cFunc handle (castPtr ptr) size)
-    checkHandle handle
-    touchStorableArray buffer
-    return $ cIntConv result
-
--- ====================================================================
--- reading
-
-hGetSamplesDouble :: (Integral i, Ix i) => Handle -> StorableArray i Double -> IO Count
-hGetSamplesDouble = hIOSamples {#call unsafe sf_read_double#}
-
-hGetSamplesFloat :: (Integral i, Ix i) => Handle -> StorableArray i Float -> IO Count
-hGetSamplesFloat = hIOSamples {#call unsafe sf_read_float#}
-
-hGetFramesDouble :: (Integral i, Ix i) => Handle -> (StorableArray i Double) -> IO Count
-hGetFramesDouble = hIOFrames {#call unsafe sf_readf_double#}
-
-hGetFramesFloat :: (Integral i, Ix i) => Handle -> (StorableArray i Float) -> IO Count
-hGetFramesFloat = hIOFrames {#call unsafe sf_readf_float#}
-
-hReadFramesDouble :: Handle -> Count -> IO (StorableArray Index Double)
-hReadFramesDouble handle@(Handle info _) frames = do
-    let n = frames * (fromIntegral $ channels info)
-    buffer <- newArray_ (0, n-1)
-    hGetFramesDouble handle buffer
-    return buffer
-
-hReadFramesFloat :: Handle -> Count -> IO (StorableArray Index Float)
-hReadFramesFloat handle@(Handle info _) frames = do
-    let n = frames * (fromIntegral $ channels info)
-    buffer <- newArray_ (0, n-1)
-    hGetFramesFloat handle buffer
-    return buffer
-
--- ====================================================================
--- writing
-
-hPutSamplesDouble :: (Integral i, Ix i) => Handle -> (StorableArray i Double) -> IO Count
-hPutSamplesDouble = hIOFrames {#call unsafe sf_write_double#}
-
-hPutSamplesFloat :: (Integral i, Ix i) => Handle -> (StorableArray i Float) -> IO Count
-hPutSamplesFloat = hIOFrames {#call unsafe sf_write_float#}
-
-hPutFramesDouble :: (Integral i, Ix i) => Handle -> (StorableArray i Double) -> IO Count
-hPutFramesDouble = hIOFrames {#call unsafe sf_writef_double#}
-
-hPutFramesFloat :: (Integral i, Ix i) => Handle -> (StorableArray i Float) -> IO Count
-hPutFramesFloat = hIOFrames {#call unsafe sf_writef_float#}
-
--- ====================================================================
 -- seeking
+
+hIsSeekable :: Handle -> IO Bool
+hIsSeekable = return . seekable . hInfo
 
 {#enum SeekMode {} deriving (Eq, Show)#}
 #c
