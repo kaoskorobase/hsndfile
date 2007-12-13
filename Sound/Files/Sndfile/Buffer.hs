@@ -13,14 +13,14 @@ import Sound.Files.Sndfile.Interface
 
 checkSampleBounds :: (Monad m) => Count -> Int -> Count -> m ()
 checkSampleBounds size channels count
-    | (count `mod` channels) /= 0 = throw (Exception "invalid channel/count combination")
-    | (count < 0) || (count >= size) = throw (Exception "index out of bounds")
+    | (count `mod` channels) /= 0 = throw (Exception ("invalid channel/count combination " ++ (show count)))
+    | (count < 0) || (count > size) = throw (Exception "index out of bounds")
     | otherwise = return ()
 
 checkFrameBounds :: (Monad m) => Count -> Int -> Count -> m ()
 checkFrameBounds size channels count
     | (size `mod` channels) /= 0 = throw (Exception "invalid buffer size")
-    | (count < 0) || (count >= (size `quot` channels)) = throw (Exception "index out of bounds")
+    | (count < 0) || (count > (size `quot` channels)) = throw (Exception "index out of bounds")
     | otherwise = return ()
 
 -- |The class MBuffer is used for polymorphic I\/O on a 'Handle', and is
