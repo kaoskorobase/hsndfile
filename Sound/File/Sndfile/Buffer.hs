@@ -8,7 +8,7 @@ module Sound.Files.Sndfile.Buffer (
 import C2HS
 import Control.Monad (liftM, when)
 import Data.Array.Base (unsafeRead, unsafeWrite)
-import Data.Array.MArray (Ix, MArray, getBounds, mapArray)
+import Data.Array.MArray (Ix, MArray, getBounds)
 --import Data.Array.IArray (IArray)
 import Data.Ix (rangeSize)
 import Prelude hiding (interact)
@@ -83,7 +83,7 @@ modifyArray f a i n
     | otherwise = do
         e <- unsafeRead a i
         unsafeWrite a i (f e)
-        mapArray' f a (i+1) n
+        modifyArray f a (i+1) n
 
 interact :: (MBuffer a e m) => (e -> e) -> a Index e -> Handle -> Handle -> m ()
 interact f buffer hIn hOut = do
