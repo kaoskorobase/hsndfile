@@ -1,7 +1,7 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 {-# OPTIONS_GHC -fglasgow-exts #-}
 
-module Sound.Files.Sndfile.Interface where
+module Sound.File.Sndfile.Interface where
 
 import C2HS
 import Control.Monad (liftM, when)

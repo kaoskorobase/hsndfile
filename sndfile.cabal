@@ -10,11 +10,11 @@ synopsis:               Haskell bindings for libsndfile
 description:            Haskell bindings for libsndfile
 tested-with:            GHC
 build-depends:          array, base, haskell98
-exposed-modules:        Sound.Files.Sndfile
+exposed-modules:        Sound.File.Sndfile
 other-modules:          C2HS,
-			Sound.Files.Sndfile.Buffer,
-			Sound.Files.Sndfile.Buffer.Storable,
-			Sound.Files.Sndfile.Interface
+			Sound.File.Sndfile.Buffer,
+			Sound.File.Sndfile.Buffer.Storable,
+			Sound.File.Sndfile.Interface
 ghc-options:            -Wall -O
 extra-libraries:	sndfile
 

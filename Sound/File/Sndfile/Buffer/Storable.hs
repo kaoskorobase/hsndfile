@@ -1,13 +1,13 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 {-# OPTIONS_GHC -fglasgow-exts #-}
 
-module Sound.Files.Sndfile.Buffer.Storable where
+module Sound.File.Sndfile.Buffer.Storable where
 
 import C2HS
 import Control.Monad (liftM)
 import Data.Array.Storable
-import Sound.Files.Sndfile.Buffer
-import Sound.Files.Sndfile.Interface
+import Sound.File.Sndfile.Buffer
+import Sound.File.Sndfile.Interface
 
 type IOFunc a = HandlePtr -> Ptr a -> CLLong -> IO CLLong
 

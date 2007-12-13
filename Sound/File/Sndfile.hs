@@ -1,8 +1,8 @@
--- | "Sound.Files.Sndfile" provides a Haskell interface to the ubiquitous
+-- | "Sound.File.Sndfile" provides a Haskell interface to the ubiquitous
 -- libsndfile library by Erik de Castro Lopo (visit the author's website at
 -- <http://www.mega-nerd.com/libsndfile/>).
 
-module Sound.Files.Sndfile
+module Sound.File.Sndfile
 (
     -- *Types
     Count, Index,
@@ -28,8 +28,8 @@ module Sound.Files.Sndfile
 ) where
 
 import Prelude hiding (catch, interact)
-import Sound.Files.Sndfile.Buffer
-import Sound.Files.Sndfile.Buffer.Storable ()
-import Sound.Files.Sndfile.Interface
+import Sound.File.Sndfile.Buffer
+import Sound.File.Sndfile.Buffer.Storable ()
+import Sound.File.Sndfile.Interface
 
 -- EOF

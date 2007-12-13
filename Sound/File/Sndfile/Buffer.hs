@@ -12,7 +12,7 @@ import Data.Array.MArray (Ix, MArray, getBounds, mapArray)
 --import Data.Array.IArray (IArray)
 import Data.Ix (rangeSize)
 import Prelude hiding (interact)
-import Sound.Files.Sndfile.Interface
+import Sound.File.Sndfile.Interface
 
 checkSampleBounds :: (Monad m) => Count -> Int -> Count -> m ()
 checkSampleBounds size channels count
