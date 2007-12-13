@@ -19,7 +19,7 @@ module Sound.Files.Sndfile
     IOMode(..), openFile, hFlush, hClose,
     SeekMode(..), hSeek, hSeekRead, hSeekWrite,
     -- *I\/O functions
-    MBuffer(..),
+    MBuffer(..), interact,
     --IBuffer(..),
     -- *Exception handling
     Exception, errorString, catch,
@@ -27,7 +27,7 @@ module Sound.Files.Sndfile
     StringType(..), getString, setString
 ) where
 
-import Prelude hiding (catch)
+import Prelude hiding (catch, interact)
 import Sound.Files.Sndfile.Buffer
 import Sound.Files.Sndfile.Buffer.Storable ()
 import Sound.Files.Sndfile.Interface

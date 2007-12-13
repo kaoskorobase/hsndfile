@@ -6,9 +6,12 @@ module Sound.Files.Sndfile.Buffer (
 ) where
 
 import C2HS
-import Data.Array.MArray (MArray, getBounds)
+import Control.Monad (liftM, when)
+import Data.Array.Base (unsafeRead, unsafeWrite)
+import Data.Array.MArray (Ix, MArray, getBounds, mapArray)
 --import Data.Array.IArray (IArray)
 import Data.Ix (rangeSize)
+import Prelude hiding (interact)
 import Sound.Files.Sndfile.Interface
 
 checkSampleBounds :: (Monad m) => Count -> Int -> Count -> m ()
@@ -73,5 +76,22 @@ class (MArray a e m) => MBuffer a e m where
     -- 'hPutFrames' returns the number of frames written (which should be the same
     -- as the 'count' parameter).
     hPutFrames  :: Handle -> a Index e -> Count -> m Count
+
+modifyArray :: (MArray a e m, Ix i) => (e -> e) -> a i e -> Int -> Int -> m ()
+modifyArray f a i n
+    | i >= n = return ()
+    | otherwise = do
+        e <- unsafeRead a i
+        unsafeWrite a i (f e)
+        mapArray' f a (i+1) n
+
+interact :: (MBuffer a e m) => (e -> e) -> a Index e -> Handle -> Handle -> m ()
+interact f buffer hIn hOut = do
+    s <- liftM rangeSize $ getBounds buffer
+    n <- hGetSamples hIn buffer s
+    when (n > 0) $ do
+        modifyArray f buffer 0 n
+        hPutSamples hOut buffer n
+        interact f buffer hIn hOut
 
 -- EOF
