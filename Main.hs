@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleContexts #-}
-import qualified Sound.File.Sndfile as SF
+import Sound.File.Sndfile
 import System.Environment
 import Data.Array.Storable
 import Data.List (foldl')
