@@ -2,7 +2,8 @@
 
 module Sound.File.Sndfile.Buffer (
     MBuffer(..),
-    checkSampleBounds, checkFrameBounds
+    checkSampleBounds, checkFrameBounds,
+    interact
 ) where
 
 import C2HS
