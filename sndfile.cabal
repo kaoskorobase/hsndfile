@@ -20,7 +20,7 @@ extra-libraries:	sndfile
 
 executable:             sndfile-test
 main-is:                Main.hs
---other-modules:		Sound.Files.Sndfile
+--other-modules:		Sound.File.Sndfile
 ghc-options:            -Wall -O
 extra-libraries:	sndfile
 hs-source-dirs:		., dist/build
