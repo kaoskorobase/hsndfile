@@ -1,6 +1,7 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 
-module Sound.File.Sndfile.Buffer (
+module Sound.File.Sndfile.Buffer
+(
     MBuffer(..),
     checkSampleBounds, checkFrameBounds,
     interact
