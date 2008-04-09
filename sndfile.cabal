@@ -9,10 +9,11 @@ homepage:               http://darcs.k-hornz.de/cgi-bin/darcsweb.cgi?r=hsndfile;
 synopsis:               Haskell bindings for libsndfile
 description:            Haskell bindings for libsndfile
 tested-with:            GHC
-build-depends:          array, base, haskell98
+build-depends:          array, base, carray, haskell98
 exposed-modules:        Sound.File.Sndfile
 other-modules:          C2HS,
 			Sound.File.Sndfile.Buffer,
+			Sound.File.Sndfile.Buffer.IOCArray,
 			Sound.File.Sndfile.Buffer.Storable,
 			Sound.File.Sndfile.Interface
 ghc-options:            -Wall -O

@@ -30,6 +30,7 @@ module Sound.File.Sndfile
 import Prelude hiding (catch, interact)
 import Sound.File.Sndfile.Buffer
 import Sound.File.Sndfile.Buffer.Storable ()
+import Sound.File.Sndfile.Buffer.IOCArray ()
 import Sound.File.Sndfile.Interface
 
 -- EOF
