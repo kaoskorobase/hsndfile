@@ -13,7 +13,7 @@ module Sound.File.Sndfile
     EndianFormat(..),
     defaultFormat,
     -- *Stream info
-    Info(..), defaultInfo, checkFormat,
+    Info(..), duration, defaultInfo, checkFormat,
     -- *Stream handle operations
     Handle, hInfo, hIsSeekable,
     IOMode(..), openFile, getFileInfo, hFlush, hClose,

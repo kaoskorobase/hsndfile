@@ -164,6 +164,11 @@ data Info = Info {
     seekable :: Bool    -- ^'True' when stream is seekable (e.g. local files)
 } deriving (Eq, Show)
 
+-- |Return soundfile duration in seconds computed via the 'Info' fields
+-- 'frames' and 'samplerate'.
+duration :: Info -> Double
+duration info = (fromIntegral $ frames info) / (fromIntegral $ samplerate info)
+
 -- |Default \'empty\' info, useful when opening files for reading with 'ReadMode'.
 defaultInfo :: Info
 defaultInfo   = Info 0 0 0 defaultFormat 0 False
