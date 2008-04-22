@@ -16,7 +16,7 @@ module Sound.File.Sndfile
     Info(..), defaultInfo, checkFormat,
     -- *Stream handle operations
     Handle, hInfo, hIsSeekable,
-    IOMode(..), openFile, hFlush, hClose,
+    IOMode(..), openFile, getFileInfo, hFlush, hClose,
     SeekMode(..), hSeek, hSeekRead, hSeekWrite,
     -- *I\/O functions
     MBuffer(..), interact,

@@ -298,6 +298,14 @@ hClose handle = do
 hFlush :: Handle -> IO ()
 hFlush (Handle _ handle) = {#call unsafe sf_write_sync#} handle
 
+-- |Get header format information associated with file.
+getFileInfo :: FilePath -> IO Info
+getFileInfo filePath = do
+    h <- openFile filePath ReadMode defaultInfo
+    let info = hInfo h
+    hClose h
+    return info
+
 -- ====================================================================
 -- seeking
 
