@@ -278,7 +278,6 @@ enum IOMode
 -- passed as the first parameter to all subsequent libsndfile calls dealing
 -- with that audio stream. On fail, the 'openFile' function signals an
 -- 'Exception'.
-
 openFile :: FilePath -> IOMode -> Info -> IO Handle
 openFile filePath ioMode info =
     withCString filePath (\cFilePath ->
