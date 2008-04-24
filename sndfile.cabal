@@ -4,7 +4,7 @@ License:                GPL
 License-File:           COPYING
 Copyright:              Stefan Kersten, 2007-2008
 Author:                 Stefan Kersten
-Maintainer:             Stefan Kersten <sk AT k-hornz DOT de>
+Maintainer:             Stefan Kersten <sk@k-hornz.de>
 Stability:              Experimental
 Homepage:               http://darcs.k-hornz.de/cgi-bin/darcsweb.cgi?r=hsndfile;a=summary
 Synopsis:               Haskell bindings for libsndfile
