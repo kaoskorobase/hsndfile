@@ -1,27 +1,28 @@
-name:                   sndfile
-version:                0.1
-license:                GPL
-copyright:              Stefan Kersten, 2007
-author:                 Stefan Kersten
-maintainer:             sk@k-hornz.de
-stability:              Experimental
-homepage:               http://darcs.k-hornz.de/cgi-bin/darcsweb.cgi?r=hsndfile;a=summary
-synopsis:               Haskell bindings for libsndfile
-description:            Haskell bindings for libsndfile
-tested-with:            GHC
-build-depends:          array, base, carray, haskell98
-exposed-modules:        Sound.File.Sndfile
-other-modules:          C2HS,
-			Sound.File.Sndfile.Buffer,
-			Sound.File.Sndfile.Buffer.IOCArray,
-			Sound.File.Sndfile.Buffer.Storable,
-			Sound.File.Sndfile.Interface
-ghc-options:            -Wall -O
-extra-libraries:	sndfile
+Name:                   hsndfile
+Version:                0.1.0
+License:                GPL
+License-File:           COPYING
+Copyright:              Stefan Kersten, 2007-2008
+Author:                 Stefan Kersten
+Maintainer:             Stefan Kersten <sk AT k-hornz DOT de>
+Stability:              Experimental
+Homepage:               http://darcs.k-hornz.de/cgi-bin/darcsweb.cgi?r=hsndfile;a=summary
+Synopsis:               Haskell bindings for libsndfile
+Description:            Haskell bindings for libsndfile
+Tested-With:            GHC
+Build-Depends:          array, base, carray, haskell98
+Exposed-Modules:        Sound.File.Sndfile
+Other-Modules:          C2HS,
+		        Sound.File.Sndfile.Buffer,
+		        Sound.File.Sndfile.Buffer.IOCArray,
+		        Sound.File.Sndfile.Buffer.Storable,
+		        Sound.File.Sndfile.Interface
+Ghc-Options:            -Wall -O
+Extra-Libraries:        sndfile
 
-executable:             sndfile-test
-main-is:                Main.hs
---other-modules:		Sound.File.Sndfile
-ghc-options:            -Wall -O
-extra-libraries:	sndfile
-hs-source-dirs:		., dist/build
+Executable:             sndfile-test
+Main-Is:                Main.hs
+--Other-Modules:        	Sound.File.Sndfile
+Ghc-Options:            -Wall -O
+Extra-Libraries:        sndfile
+Hs-Source-Dirs:	        ., dist/build
