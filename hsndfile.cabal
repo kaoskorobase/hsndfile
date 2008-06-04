@@ -25,10 +25,3 @@ Other-Modules:          C2HS,
 		        Sound.File.Sndfile.Interface
 Ghc-Options:            -Wall
 Extra-Libraries:        sndfile
-
-Executable:             sndfile-test
-Main-Is:                Main.hs
---Other-Modules:        	Sound.File.Sndfile
-Ghc-Options:            -Wall -O
-Extra-Libraries:        sndfile
-Hs-Source-Dirs:	        ., dist/build
