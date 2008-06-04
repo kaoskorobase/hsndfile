@@ -15,6 +15,7 @@ Description:            Haskell bindings for libsndfile.
                         and writing a large number of soundfile formats:
                         <http://www.mega-nerd.com/libsndfile/>.
 Tested-With:            GHC
+Build-Type:		Simple
 Build-Depends:          array, base, carray, haskell98
 Exposed-Modules:        Sound.File.Sndfile
 Other-Modules:          C2HS,
