@@ -9,7 +9,11 @@ Maintainer:             Stefan Kersten <sk@k-hornz.de>
 Stability:              Experimental
 Homepage:               http://darcs.k-hornz.de/cgi-bin/darcsweb.cgi?r=hsndfile;a=summary
 Synopsis:               Haskell bindings for libsndfile
-Description:            Haskell bindings for libsndfile
+Description:            Haskell bindings for libsndfile.
+                        .
+                        Libsndfile is a comprehensive C library for reading
+                        and writing a large number of soundfile formats:
+                        <http://www.mega-nerd.com/libsndfile/>.
 Tested-With:            GHC
 Build-Depends:          array, base, carray, haskell98
 Exposed-Modules:        Sound.File.Sndfile
