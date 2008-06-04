@@ -1,5 +1,6 @@
 Name:                   hsndfile
 Version:                0.1.0
+Category:		Sound
 License:                GPL
 License-File:           COPYING
 Copyright:              Stefan Kersten, 2007-2008
