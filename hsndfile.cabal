@@ -23,7 +23,7 @@ Other-Modules:          C2HS,
 		        Sound.File.Sndfile.Buffer.IOCArray,
 		        Sound.File.Sndfile.Buffer.Storable,
 		        Sound.File.Sndfile.Interface
-Ghc-Options:            -Wall -O
+Ghc-Options:            -Wall
 Extra-Libraries:        sndfile
 
 Executable:             sndfile-test
