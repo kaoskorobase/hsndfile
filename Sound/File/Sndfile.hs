@@ -19,7 +19,9 @@ module Sound.File.Sndfile
     IOMode(..), openFile, getFileInfo, hFlush, hClose,
     SeekMode(..), hSeek, hSeekRead, hSeekWrite,
     -- *I\/O functions
-    MBuffer(..), interact,
+    MBuffer(..),
+    hReadSamples, hReadFrames,
+    interact,
     --IBuffer(..),
     -- *Exception handling
     Exception, errorString, catch,

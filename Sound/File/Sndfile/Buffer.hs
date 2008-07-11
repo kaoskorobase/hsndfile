@@ -4,13 +4,14 @@ module Sound.File.Sndfile.Buffer
 (
     MBuffer(..),
     checkSampleBounds, checkFrameBounds,
+    hReadSamples, hReadFrames,
     interact
 ) where
 
 import C2HS
 import Control.Monad (liftM, when)
 import Data.Array.Base (unsafeRead, unsafeWrite)
-import Data.Array.MArray (Ix, MArray, getBounds)
+import Data.Array.MArray (Ix, MArray, getBounds, newArray_, writeArray)
 --import Data.Array.IArray (IArray)
 import Data.Ix (rangeSize)
 import Prelude hiding (interact)
@@ -78,6 +79,37 @@ class (MArray a e m) => MBuffer a e m where
     -- 'hPutFrames' returns the number of frames written (which should be the same
     -- as the 'count' parameter).
     hPutFrames  :: Handle -> a Index e -> Count -> m Count
+
+writeArrayRange :: (MArray a e m, Ix i, Num i) => a i e -> (i, i) -> e -> m ()
+writeArrayRange a (i0, i) e | i0 > i = return ()
+writeArrayRange a (i0, i) e          = writeArray a i0 e >> writeArrayRange a (i0+1,i) e
+
+-- |Return an array with the requested number of items. The 'count' parameter
+-- must be an integer product of the number of channels or an error will
+-- occur.
+hReadSamples :: (MBuffer a e m, Num e) => Handle -> Count -> m (Maybe (a Index e))
+hReadSamples h n = do
+    b  <- newArray_ (0, n-1)
+    n' <- hGetSamples h b n
+    if n' == 0
+        then return Nothing
+        else do
+            when (n' < n) (writeArrayRange b (n',n-1) 0)
+            return (Just b)
+
+-- |Return an array with the requested number of frames of data.
+-- The resulting array size is equal to the product of the number of frames
+-- `n' and the number of channels in the soundfile.
+hReadFrames :: (MBuffer a e m, Num e) => Handle -> Count -> m (Maybe (a Index e))
+hReadFrames h n = do
+    b  <- newArray_ (0, (f2s n) - 1)
+    n' <- hGetFrames h b n
+    if n' == 0
+        then return Nothing
+        else do
+            when (n' < n) (writeArrayRange b (f2s n', (f2s n) - 1) 0)
+            return (Just b)
+    where f2s = (* channels (hInfo h))
 
 modifyArray :: (MArray a e m, Ix i) => (e -> e) -> a i e -> Int -> Int -> m ()
 modifyArray f a i n
