@@ -1,3 +1,4 @@
+{-# LANGUAGE ForeignFunctionInterface #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 
 module Sound.File.Sndfile.Buffer
@@ -5,14 +6,20 @@ module Sound.File.Sndfile.Buffer
     MBuffer(..),
     checkSampleBounds, checkFrameBounds,
     hReadSamples, hReadFrames,
-    interact
+    interact,
+    IOFunc,
+    sf_read_double, sf_readf_double,
+    sf_write_double, sf_writef_double,
+    sf_read_float, sf_readf_float,
+    sf_write_float, sf_writef_float
 ) where
 
-import C2HS
 import Control.Monad (liftM, when)
 import Data.Array.Base (unsafeRead, unsafeWrite)
 import Data.Array.MArray (Ix, MArray, getBounds, newArray_)
 import Data.Ix (rangeSize)
+import Foreign.Ptr (Ptr)
+import Foreign.C.Types (CLLong)
 import Prelude hiding (interact)
 import Sound.File.Sndfile.Interface
 
@@ -27,6 +34,18 @@ checkFrameBounds size channels count
     | (size `mod` channels) /= 0 = throw (Exception "invalid buffer size")
     | (count < 0) || (count > (size `quot` channels)) = throw (Exception "index out of bounds")
     | otherwise = return ()
+
+type IOFunc a = HandlePtr -> Ptr a -> CLLong -> IO CLLong
+
+foreign import ccall unsafe "sf_read_double"   sf_read_double   :: IOFunc Double
+foreign import ccall unsafe "sf_readf_double"  sf_readf_double  :: IOFunc Double
+foreign import ccall unsafe "sf_write_double"  sf_write_double  :: IOFunc Double
+foreign import ccall unsafe "sf_writef_double" sf_writef_double :: IOFunc Double
+
+foreign import ccall unsafe "sf_read_float"   sf_read_float   :: IOFunc Float
+foreign import ccall unsafe "sf_readf_float"  sf_readf_float  :: IOFunc Float
+foreign import ccall unsafe "sf_write_float"  sf_write_float  :: IOFunc Float
+foreign import ccall unsafe "sf_writef_float" sf_writef_float :: IOFunc Float
 
 -- |The class MBuffer is used for polymorphic I\/O on a 'Handle', and is
 -- parameterized on the mutable array type, the element type and the monad
