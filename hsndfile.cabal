@@ -1,6 +1,6 @@
 Name:                   hsndfile
 Version:                0.1.1
-Category:		Sound
+Category:               Sound
 License:                GPL
 License-File:           COPYING
 Copyright:              Stefan Kersten, 2007-2008
@@ -15,13 +15,13 @@ Description:            Haskell bindings for libsndfile.
                         and writing a large number of soundfile formats:
                         <http://www.mega-nerd.com/libsndfile/>.
 Tested-With:            GHC
-Build-Type:		Simple
+Build-Type:             Simple
 Build-Depends:          array, base, carray, haskell98
 Exposed-Modules:        Sound.File.Sndfile
 Other-Modules:          C2HS,
-		        Sound.File.Sndfile.Buffer,
-		        Sound.File.Sndfile.Buffer.IOCArray,
-		        Sound.File.Sndfile.Buffer.Storable,
-		        Sound.File.Sndfile.Interface
+                        Sound.File.Sndfile.Buffer,
+                        Sound.File.Sndfile.Buffer.IOCArray,
+                        Sound.File.Sndfile.Buffer.Storable,
+                        Sound.File.Sndfile.Interface
 Ghc-Options:            -Wall
 Extra-Libraries:        sndfile
