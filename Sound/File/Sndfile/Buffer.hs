@@ -11,8 +11,7 @@ module Sound.File.Sndfile.Buffer
 import C2HS
 import Control.Monad (liftM, when)
 import Data.Array.Base (unsafeRead, unsafeWrite)
-import Data.Array.MArray (Ix, MArray, getBounds, newArray_, writeArray)
---import Data.Array.IArray (IArray)
+import Data.Array.MArray (Ix, MArray, getBounds, newArray_)
 import Data.Ix (rangeSize)
 import Prelude hiding (interact)
 import Sound.File.Sndfile.Interface
@@ -80,9 +79,10 @@ class (MArray a e m) => MBuffer a e m where
     -- as the 'count' parameter).
     hPutFrames  :: Handle -> a Index e -> Count -> m Count
 
-writeArrayRange :: (MArray a e m, Ix i, Num i) => a i e -> (i, i) -> e -> m ()
-writeArrayRange a (i0, i) e | i0 > i = return ()
-writeArrayRange a (i0, i) e          = writeArray a i0 e >> writeArrayRange a (i0+1,i) e
+-- TODO: Optimize unsafeWriteRange
+unsafeWriteRange :: (MArray a e m) => a Int e -> (Int, Int) -> e -> m ()
+unsafeWriteRange _ (i0, i) _ | i0 > i = return ()
+unsafeWriteRange a (i0, i) e          = unsafeWrite a i0 e >> unsafeWriteRange a (i0+1,i) e
 
 -- |Return an array with the requested number of items. The 'count' parameter
 -- must be an integer product of the number of channels or an error will
@@ -94,7 +94,7 @@ hReadSamples h n = do
     if n' == 0
         then return Nothing
         else do
-            when (n' < n) (writeArrayRange b (n',n-1) 0)
+            when (n' < n) (unsafeWriteRange b (n',n-1) 0)
             return (Just b)
 
 -- |Return an array with the requested number of frames of data.
@@ -102,14 +102,16 @@ hReadSamples h n = do
 -- `n' and the number of channels in the soundfile.
 hReadFrames :: (MBuffer a e m, Num e) => Handle -> Count -> m (Maybe (a Index e))
 hReadFrames h n = do
-    b  <- newArray_ (0, (f2s n) - 1)
+    b  <- newArray_ (0, si)
     n' <- hGetFrames h b n
     if n' == 0
         then return Nothing
         else do
-            when (n' < n) (writeArrayRange b (f2s n', (f2s n) - 1) 0)
+            when (n' < n) (unsafeWriteRange b (f2s n', si) 0)
             return (Just b)
-    where f2s = (* channels (hInfo h))
+    where
+        f2s = (* channels (hInfo h))
+        si  = (f2s n) - 1
 
 modifyArray :: (MArray a e m, Ix i) => (e -> e) -> a i e -> Int -> Int -> m ()
 modifyArray f a i n
