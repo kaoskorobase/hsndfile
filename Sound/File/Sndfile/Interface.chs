@@ -1,15 +1,12 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
-{-# OPTIONS_GHC -fglasgow-exts #-}
 
 module Sound.File.Sndfile.Interface where
 
 import C2HS
 import Control.Monad (liftM, when)
-import Control.Exception (catchDyn, throwDyn)
 import Data.Bits
 import Data.Int (Int64)
-import Data.Typeable (Typeable)
-import Prelude hiding (catch)
+import qualified Sound.File.Sndfile.Exception as E
 import System.IO.Unsafe (unsafePerformIO)
 
 #include <sndfile.h>
@@ -216,29 +213,11 @@ instance Storable (Info) where
 -- ====================================================================
 -- Exceptions
 
--- |Values of type 'Exception' are thrown by the library when an error occurs.
---
--- Use 'catch' to catch only exceptions of this type.
-data Exception = Exception String deriving (Typeable, Show)
-
--- |Return the error string associated with the 'Exception'.
-errorString :: Exception -> String
-errorString (Exception s) = s
-
--- |Catch values of type 'Exception'.
-catch :: IO a -> (Exception -> IO a) -> IO a
-catch = catchDyn
-
-throw :: Exception -> a
-throw = throwDyn
-
-raiseError :: Handle -> IO ()
-raiseError handle = liftM (throw . Exception) $ (peekCString $ {#call pure sf_strerror#} (hPtr handle))
-
 checkHandle :: HandlePtr -> IO HandlePtr
 checkHandle handle = do
     code <- liftM fromIntegral $ {#call unsafe sf_error#} handle
-    when (code /= 0) $ raiseError (Handle defaultInfo handle)
+    when (code /= 0) $
+        peekCString ({#call pure sf_strerror#} handle) >>= E.throw code
     return handle
 
 -- ====================================================================

@@ -18,10 +18,11 @@ Tested-With:            GHC
 Build-Type:             Simple
 Build-Depends:          array, base, carray, haskell98
 Exposed-Modules:        Sound.File.Sndfile
-Other-Modules:          C2HS,
-                        Sound.File.Sndfile.Buffer,
-                        Sound.File.Sndfile.Buffer.IOCArray,
-                        Sound.File.Sndfile.Buffer.Storable,
+Other-Modules:          C2HS
+                        Sound.File.Sndfile.Buffer
+                        Sound.File.Sndfile.Buffer.IOCArray
+                        Sound.File.Sndfile.Buffer.Storable
+                        Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface
 Ghc-Options:            -Wall
 Extra-Libraries:        sndfile

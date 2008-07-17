@@ -24,7 +24,7 @@ module Sound.File.Sndfile
     interact,
     --IBuffer(..),
     -- *Exception handling
-    Exception, errorString, catch,
+    Exception(..), catch,
     -- *Header string field access
     StringType(..), getString, setString
 ) where
@@ -33,6 +33,7 @@ import Prelude hiding (catch, interact)
 import Sound.File.Sndfile.Buffer
 import Sound.File.Sndfile.Buffer.Storable ()
 import Sound.File.Sndfile.Buffer.IOCArray ()
+import Sound.File.Sndfile.Exception
 import Sound.File.Sndfile.Interface
 
 -- EOF

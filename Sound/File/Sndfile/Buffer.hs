@@ -21,18 +21,19 @@ import Data.Ix (rangeSize)
 import Foreign.Ptr (Ptr)
 import Foreign.C.Types (CLLong)
 import Prelude hiding (interact)
+import Sound.File.Sndfile.Exception (throw)
 import Sound.File.Sndfile.Interface
 
 checkSampleBounds :: (Monad m) => Count -> Int -> Count -> m ()
 checkSampleBounds size channels count
-    | (count `mod` channels) /= 0 = throw (Exception ("invalid channel/count combination " ++ (show count)))
-    | (count < 0) || (count > size) = throw (Exception "index out of bounds")
+    | (count `mod` channels) /= 0   = throw 0 ("invalid channel/count combination " ++ (show count))
+    | (count < 0) || (count > size) = throw 0 ("index out of bounds")
     | otherwise = return ()
 
 checkFrameBounds :: (Monad m) => Count -> Int -> Count -> m ()
 checkFrameBounds size channels count
-    | (size `mod` channels) /= 0 = throw (Exception "invalid buffer size")
-    | (count < 0) || (count > (size `quot` channels)) = throw (Exception "index out of bounds")
+    | (size `mod` channels) /= 0                      = throw 0 ("invalid buffer size")
+    | (count < 0) || (count > (size `quot` channels)) = throw 0 ("index out of bounds")
     | otherwise = return ()
 
 type IOFunc a = HandlePtr -> Ptr a -> CLLong -> IO CLLong
