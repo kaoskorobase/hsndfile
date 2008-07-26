@@ -3,7 +3,6 @@
 module Sound.File.Sndfile.Buffer.Storable where
 
 import C2HS
-import Control.Monad (liftM)
 import Data.Array.Storable
 import Sound.File.Sndfile.Buffer
 import Sound.File.Sndfile.Interface
@@ -15,10 +14,11 @@ hIO :: (Storable a) =>
         -> Handle -> (StorableArray Index a) -> Count
         -> IO Count
 hIO checkBounds ioFunc (Handle info handle) buffer count = do
-    size <- liftM rangeSize $ getBounds buffer
+    size <- rangeSize `fmap` getBounds buffer
     checkBounds size (channels info) count
     result <- withStorableArray buffer $
-                \ptr -> liftM fromIntegral $ ioFunc handle ptr (cIntConv count)
+                \ptr -> fromIntegral `fmap` ioFunc handle ptr (cIntConv count)
+                :: IO Count
     checkHandle handle
     touchStorableArray buffer
     return $ cIntConv result
