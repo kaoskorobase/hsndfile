@@ -24,5 +24,5 @@ Other-Modules:          C2HS
                         Sound.File.Sndfile.Buffer.Storable
                         Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface
-Ghc-Options:            -Wall
+Ghc-Options:            -Wall -fno-warn-name-shadowing
 Extra-Libraries:        sndfile
