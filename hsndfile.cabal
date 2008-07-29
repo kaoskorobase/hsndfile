@@ -14,6 +14,9 @@ Description:            Haskell bindings for libsndfile.
                         Libsndfile is a comprehensive C library for reading
                         and writing a large number of soundfile formats:
                         <http://www.mega-nerd.com/libsndfile/>.
+						.
+						Changelog and source tarballs can be found at
+						<http://space.k-hornz.de/files/software/hsndfile>
 Tested-With:            GHC
 Build-Type:             Simple
 Build-Depends:          array, base, carray >= 0.1.2, haskell98
