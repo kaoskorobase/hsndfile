@@ -16,7 +16,8 @@ Description:            Haskell bindings for libsndfile.
                         <http://www.mega-nerd.com/libsndfile/>.
 Tested-With:            GHC
 Build-Type:             Simple
-Build-Depends:          array, base, carray, haskell98
+Build-Depends:          array, base, carray >= 0.1.2, haskell98
+Build-Tools:			c2hs >= 0.15
 Exposed-Modules:        Sound.File.Sndfile
 Other-Modules:          C2HS
                         Sound.File.Sndfile.Buffer
