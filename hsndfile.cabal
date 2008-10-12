@@ -1,15 +1,15 @@
-Name:                   hsndfile
-Version:                0.2.0
-Category:               Sound
-License:                GPL
-License-File:           COPYING
-Copyright:              Stefan Kersten, 2007-2008
-Author:                 Stefan Kersten
-Maintainer:             Stefan Kersten <sk@k-hornz.de>
-Stability:              Experimental
-Homepage:               http://darcs.k-hornz.de/cgi-bin/darcsweb.cgi?r=hsndfile;a=summary
-Synopsis:               Haskell bindings for libsndfile
-Description:            Haskell bindings for libsndfile.
+name:                   hsndfile
+version:                0.2.0
+category:               Sound
+license:                GPL
+license-file:           COPYING
+copyright:              Stefan Kersten, 2007-2008
+author:                 Stefan Kersten
+maintainer:             Stefan Kersten <sk@k-hornz.de>
+stability:              Experimental
+homepage:               http://darcs.k-hornz.de/cgi-bin/darcsweb.cgi?r=hsndfile;a=summary
+synopsis:               Haskell bindings for libsndfile
+description:            Haskell bindings for libsndfile.
                         .
                         Libsndfile is a comprehensive C library for reading
                         and writing a large number of soundfile formats:
@@ -17,16 +17,16 @@ Description:            Haskell bindings for libsndfile.
 						.
 						Changelog and source tarballs can be found at
 						<http://space.k-hornz.de/files/software/hsndfile>
-Tested-With:            GHC
-Build-Type:             Simple
-Build-Depends:          array, base, carray >= 0.1.2, haskell98
-Build-Tools:			c2hs >= 0.15
-Exposed-Modules:        Sound.File.Sndfile
-Other-Modules:          C2HS
+tested-with:            GHC
+build-type:             Simple
+build-depends:          array, base, carray >= 0.1.2, haskell98
+build-tools:			c2hs >= 0.15
+exposed-modules:        Sound.File.Sndfile
+other-modules:          C2HS
                         Sound.File.Sndfile.Buffer
                         Sound.File.Sndfile.Buffer.IOCArray
                         Sound.File.Sndfile.Buffer.Storable
                         Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface
-Ghc-Options:            -Wall -fno-warn-name-shadowing
-Extra-Libraries:        sndfile
+ghc-options:            -Wall -fno-warn-name-shadowing
+extra-libraries:        sndfile
