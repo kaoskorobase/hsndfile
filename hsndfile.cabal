@@ -19,14 +19,19 @@ description:            Haskell bindings for libsndfile.
 						<http://space.k-hornz.de/files/software/hsndfile>
 tested-with:            GHC
 build-type:             Simple
-build-depends:          array, base, carray >= 0.1.2, haskell98
-build-tools:			c2hs >= 0.15
-exposed-modules:        Sound.File.Sndfile
-other-modules:          C2HS
+cabal-version:          >= 1.2
+
+library
+  build-depends:        array, base, carray >= 0.1.2, haskell98
+  build-tools:          c2hs >= 0.15
+  exposed-modules:      Sound.File.Sndfile
+  other-modules:        C2HS
                         Sound.File.Sndfile.Buffer
                         Sound.File.Sndfile.Buffer.IOCArray
                         Sound.File.Sndfile.Buffer.Storable
                         Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface
-ghc-options:            -Wall -fno-warn-name-shadowing
-extra-libraries:        sndfile
+  ghc-options:          -Wall -fno-warn-name-shadowing
+  extra-libraries:      sndfile
+  if os(windows)
+    include-dirs:       libsndfile
