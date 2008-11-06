@@ -22,7 +22,7 @@ build-type:             Simple
 cabal-version:          >= 1.2
 
 library
-  build-depends:        array, base, carray >= 0.1.2, haskell98
+  build-depends:        array, base >= 4.0.0.0, carray >= 0.1.2, haskell98
   build-tools:          c2hs >= 0.15
   exposed-modules:      Sound.File.Sndfile
   other-modules:        C2HS
