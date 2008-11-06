@@ -5,9 +5,10 @@ module Sound.File.Sndfile.Exception (
     catch, throw
 ) where
 
-import Control.Exception (catchDyn, throwDyn)
-import Data.Typeable (Typeable)
-import Prelude hiding (catch)
+import Control.Exception            (fromException, toException, SomeException(..))
+import qualified Control.Exception  as E
+import Data.Typeable                (Typeable)
+import Prelude hiding               (catch)
 
 -- |Values of type 'Exception' are thrown by the library when an error occurs.
 --
@@ -20,6 +21,10 @@ data Exception =
   | UnsupportedEncoding { errorString :: String }
   deriving (Typeable, Show)
 
+instance E.Exception (Exception) where
+    toException   = SomeException
+    fromException = const Nothing
+
 -- | Construct 'Exception' from error code and string.
 fromErrorCode :: Int -> String -> Exception
 fromErrorCode 1 = UnrecognisedFormat
@@ -30,8 +35,8 @@ fromErrorCode _ = Exception
 
 -- |Catch values of type 'Exception'.
 catch :: IO a -> (Exception -> IO a) -> IO a
-catch = catchDyn
+catch = E.catch
 
 -- | Throw 'Exception' according to error code and string
 throw :: Int -> String -> a
-throw code str = throwDyn (fromErrorCode code str)
+throw code str = E.throw (fromErrorCode code str)
