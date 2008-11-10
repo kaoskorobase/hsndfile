@@ -21,6 +21,9 @@ tested-with:            GHC
 build-type:             Simple
 cabal-version:          >= 1.2
 
+extra-source-files:
+                        libsndfile/sndfile.h
+
 library
   build-depends:        array, base >= 4.0.0.0, carray >= 0.1.2, haskell98
   build-tools:          c2hs >= 0.15
