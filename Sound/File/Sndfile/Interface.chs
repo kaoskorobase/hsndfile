@@ -15,8 +15,12 @@ import System.IO.Unsafe (unsafePerformIO)
 -- ====================================================================
 -- Basic types
 
-type Count = Int -- ^ Type for expressing sample counts.
-type Index = Int -- ^ Type for expressing sample indices.
+
+-- | Type for expressing sample counts.
+type Count = Int
+
+-- | Type for expressing sample indices.
+type Index = Int
 
 -- ====================================================================
 -- Format
