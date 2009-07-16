@@ -7,7 +7,7 @@ copyright:              Stefan Kersten, 2007-2009
 author:                 Stefan Kersten
 maintainer:             Stefan Kersten <sk@k-hornz.de>
 stability:              Experimental
-homepage:               http://darcs.k-hornz.de/cgi-bin/darcsweb.cgi?r=hsndfile;a=summary
+homepage:               http://haskell.org/haskellwiki/Hsndfile
 synopsis:               Haskell bindings for libsndfile
 description:            Haskell bindings for libsndfile.
                         .
