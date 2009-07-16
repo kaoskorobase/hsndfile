@@ -1,6 +1,3 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-
 module Sound.File.Sndfile.Buffer
 (
     MBuffer(..),

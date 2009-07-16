@@ -29,6 +29,12 @@ extra-source-files:
 library
   build-depends:        array, base >= 4.0.0.0, carray >= 0.1.2, haskell98
   build-tools:          c2hs >= 0.15
+  extensions:           DeriveDataTypeable
+                        ExistentialQuantification
+                        FlexibleContexts
+                        ForeignFunctionInterface
+                        MultiParamTypeClasses
+                        TypeFamilies
   exposed-modules:      Sound.File.Sndfile
   other-modules:        C2HS
                         Sound.File.Sndfile.Buffer

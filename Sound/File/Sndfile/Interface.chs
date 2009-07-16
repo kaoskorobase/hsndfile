@@ -1,5 +1,3 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
-
 module Sound.File.Sndfile.Interface where
 
 import C2HS
