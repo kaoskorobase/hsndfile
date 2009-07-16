@@ -1,5 +1,3 @@
-# Changes (by version)
-
 ## Version 0.3.2
 
 * [__USER__] **hsndfile** has been adapted to compile with GHC 6.10. The only
