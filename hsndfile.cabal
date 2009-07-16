@@ -39,7 +39,7 @@ library
                         Sound.File.Sndfile.Buffer.Storable
                         Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface
-  ghc-options:          -Wall -fno-warn-name-shadowing
+  ghc-options:          -Wall -fno-warn-name-shadowing -fno-warn-orphans
   extra-libraries:      sndfile
   if os(windows)
     include-dirs:       libsndfile
