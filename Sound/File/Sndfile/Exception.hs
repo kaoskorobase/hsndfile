@@ -1,5 +1,3 @@
-{-# OPTIONS_GHC -fglasgow-exts #-}
-
 module Sound.File.Sndfile.Exception (
     Exception(..),
     catch, throw
