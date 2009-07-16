@@ -43,3 +43,7 @@ library
   extra-libraries:      sndfile
   if os(windows)
     include-dirs:       libsndfile
+
+source-repository head
+  type:             darcs
+  location:         http://code.haskell.org/hsndfile
