@@ -1,4 +1,4 @@
-# ChangeLog for hsndfile
+# Changes (by version)
 
 ## Version 0.3.2
 
