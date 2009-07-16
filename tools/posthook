@@ -1,0 +1,9 @@
+#!/bin/sh
+
+function remote_cat()
+{
+	ssh code.haskell.org sh -c "cat > \"${1}\""
+}
+
+pandoc -s README.md ChangeLog.md | remote_cat '/srv/code/hsndfile/index.html'
+pandoc -s ChangeLog.md | remote_cat '/srv/code/hsndfile/ChangeLog.html'
