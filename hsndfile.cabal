@@ -1,6 +1,6 @@
 name:                   hsndfile
 version:                0.3.3
-category:               Sound
+category:               Data, Sound
 license:                GPL
 license-file:           COPYING
 copyright:              Stefan Kersten, 2007-2008
