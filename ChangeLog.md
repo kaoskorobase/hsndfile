@@ -1,4 +1,4 @@
-## Version 0.3.2
+### Version 0.3.2
 
 * [__USER__] **hsndfile** has been adapted to compile with GHC 6.10. The only
   visible change is in exception handling:
@@ -7,7 +7,7 @@
     * The new generalized functions from `Control.Exception.Exception` are
       used for throwing and handling exceptions
 
-## Version 0.2.0
+### Version 0.2.0
 
 * [__BUGFIX__] Fix exception throwing Exceptions detected in library code are
   now actually raised. Exception has been factored into
