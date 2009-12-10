@@ -19,20 +19,24 @@ module Sound.File.Sndfile
     IOMode(..), openFile, getFileInfo, hFlush, hClose,
     SeekMode(..), hSeek, hSeekRead, hSeekWrite,
     -- *I\/O functions
-    MBuffer(..),
-    hReadSamples, hReadFrames,
-    interact,
+    Sample(..),
+    -- hReadSamples,
+    -- hReadFrames,
+    -- interact,
     --IBuffer(..),
     -- *Exception handling
     Exception(..), catch,
     -- *Header string field access
     StringType(..), getString, setString
+    -- *Enumerators and Iteratees
+    , module Sound.File.Sndfile.Enumerator
 ) where
 
 import Prelude hiding (catch, interact)
 import Sound.File.Sndfile.Buffer
-import Sound.File.Sndfile.Buffer.Storable ()
-import Sound.File.Sndfile.Buffer.IOCArray ()
+-- import Sound.File.Sndfile.Buffer.Storable ()
+-- import Sound.File.Sndfile.Buffer.IOCArray ()
+import Sound.File.Sndfile.Enumerator
 import Sound.File.Sndfile.Exception
 import Sound.File.Sndfile.Interface
 

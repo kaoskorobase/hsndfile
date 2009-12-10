@@ -404,5 +404,3 @@ setString (Handle _ handle) t s =
         {#call unsafe sf_set_string#} handle (cFromEnum t) cs
         checkHandle handle
         return ())
-
--- EOF

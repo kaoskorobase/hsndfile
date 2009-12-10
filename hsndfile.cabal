@@ -1,5 +1,5 @@
 name:                   hsndfile
-version:                0.3.3
+version:                0.4.0
 category:               Data, Sound
 license:                GPL
 license-file:           COPYING
@@ -14,7 +14,7 @@ description:            Haskell bindings for libsndfile.
                         libsndfile is a comprehensive C library for reading
                         and writing a large number of soundfile formats:
                         <http://www.mega-nerd.com/libsndfile/>.
-tested-with:            GHC==6.8.*, GHC==6.10.1
+tested-with:            GHC==6.8.*, GHC==6.10.1, GHC==6.10.4
 build-type:             Simple
 cabal-version:          >= 1.2
 
@@ -24,7 +24,13 @@ extra-source-files:
                         libsndfile/sndfile.h
 
 library
-  build-depends:        array, base >= 4.0.0.0 && < 5, carray >= 0.1.2, haskell98
+  build-depends:        array,
+                        base >= 4 && < 5,
+                        haskell98,
+                        iteratee >= 0.3,
+                        ListLike,
+                        storablevector,
+                        vector
   build-tools:          c2hs >= 0.15
   extensions:           DeriveDataTypeable
                         ExistentialQuantification
@@ -33,13 +39,16 @@ library
                         MultiParamTypeClasses
                         TypeFamilies
   exposed-modules:      Sound.File.Sndfile
+                        Sound.File.Sndfile.Wrapped.StorableVector
+                        Sound.File.Sndfile.Wrapped.Vector
   other-modules:        C2HS
                         Sound.File.Sndfile.Buffer
-                        Sound.File.Sndfile.Buffer.IOCArray
-                        Sound.File.Sndfile.Buffer.Storable
+                        Sound.File.Sndfile.Buffer.Internal
+                        Sound.File.Sndfile.Buffer.Sample
+                        Sound.File.Sndfile.Enumerator
                         Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface
-  ghc-options:          -Wall -fno-warn-name-shadowing -fno-warn-orphans
+  ghc-options:          -Wall -fno-warn-name-shadowing
   extra-libraries:      sndfile
   if os(windows)
     include-dirs:       libsndfile

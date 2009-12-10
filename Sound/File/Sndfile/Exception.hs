@@ -1,9 +1,9 @@
 module Sound.File.Sndfile.Exception (
     Exception(..),
-    catch, throw
+    catch, try, throw
 ) where
 
-import Control.Exception            (fromException, toException, SomeException(..))
+import Control.Exception            (SomeException(..), catch, fromException, toException, try)
 import qualified Control.Exception  as E
 import Data.Typeable                (Typeable)
 import Prelude hiding               (catch)
@@ -32,8 +32,8 @@ fromErrorCode 4 = UnsupportedEncoding
 fromErrorCode _ = Exception
 
 -- |Catch values of type 'Exception'.
-catch :: IO a -> (Exception -> IO a) -> IO a
-catch = E.catch
+-- catch :: IO a -> (Exception -> IO a) -> IO a
+-- catch = E.catch
 
 -- | Throw 'Exception' according to error code and string
 throw :: Int -> String -> a
