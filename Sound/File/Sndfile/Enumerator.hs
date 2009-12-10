@@ -1,6 +1,8 @@
 {-# LANGUAGE FlexibleInstances, ScopedTypeVariables #-}
 
-module Sound.File.Sndfile.Enumerator where
+module Sound.File.Sndfile.Enumerator (
+    enumHandle
+) where
 
 import Sound.File.Sndfile.Buffer (hGetBuf, Sample)
 import Sound.File.Sndfile.Exception
