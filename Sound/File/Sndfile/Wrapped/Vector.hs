@@ -61,13 +61,12 @@ instance V.Vector v a => LL.ListLike (Vector v a) a where
 instance (V.Vector v el, V.Vector v el') => LooseMap (Vector v) el el' where
     looseMap f = wrap . V.map f . unWrap
 
--- | A more restrictive map, where source and result element types are the same.
-vmap :: (LL.ListLike (v el) el, LL.ListLike (s' el') el') => (el -> el') -> v el -> s' el'
+vmap :: (V.Vector v el, SC.StreamChunk s' el') => (el -> el') -> Vector v el -> s' el'
 vmap f xs = step xs
   where
       step bs
-        | LL.null bs = mempty
-        | True       = f (LL.head bs) `LL.cons` step (LL.tail bs)
+        | SC.null bs = mempty
+        | True       = f (SC.head bs) `SC.cons` step (SC.tail bs)
 
 instance (V.Vector v a) => SC.StreamChunk (Vector v) a where
     cMap = vmap
