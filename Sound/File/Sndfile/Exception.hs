@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveDataTypeable #-}
 module Sound.File.Sndfile.Exception (
     Exception(..),
     catch, try, throw

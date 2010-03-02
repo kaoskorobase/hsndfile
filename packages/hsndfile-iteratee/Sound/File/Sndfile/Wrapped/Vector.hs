@@ -84,9 +84,3 @@ instance Storable el => SC.ReadableChunk StorableVector el where
                     | otherwise    = error $ "ReadableChunk.readFromPtr (Sound.File.Sndfile.Wrapped.Vector.Vector): invalid number of bytes: " ++ show l ++ " size: " ++ show s
         where s = sizeOf (undefined :: el)
               n = l `div` s
-
-instance Storable el => Buffer StorableVector el where
-    fromForeignPtr p l = wrap `fmap` V.unsafeFreeze (SV.MVector 0 l p)
-    toForeignPtr v = do
-        (SV.MVector i n p) <- V.unsafeThaw (unWrap v)
-        return (p, i, n)

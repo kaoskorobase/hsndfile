@@ -1,4 +1,4 @@
-{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE MultiParamTypeClasses, ScopedTypeVariables #-}
 
 module Sound.File.Sndfile.Buffer (
     module Sound.File.Sndfile.Buffer.Sample
@@ -18,7 +18,7 @@ import Sound.File.Sndfile.Buffer.Sample
 import System.IO.Unsafe (unsafeInterleaveIO)
 
 class Buffer a e where
-    fromForeignPtr :: ForeignPtr e -> Count -> IO (a e)
+    fromForeignPtr :: ForeignPtr e -> Int -> Int -> IO (a e)
     toForeignPtr :: a e -> IO (ForeignPtr e, Int, Int)
     -- unsafeFromPtr :: Ptr e -> Count -> IO (a e)
     -- unsafeToPtr :: a e -> IO (Ptr e, Count)
@@ -45,7 +45,9 @@ hGetBuffer h n = do
     n' <- hGetBuf h p n
     if n' == 0
         then return Nothing
-        else newForeignPtr_ p >>= flip fromForeignPtr (n * numChannels) >>= return . Just
+        else do
+            fp <- newForeignPtr_ p
+            Just `fmap` fromForeignPtr p 0 (n * numChannels)
     where
         numChannels = (channels.hInfo) h
 

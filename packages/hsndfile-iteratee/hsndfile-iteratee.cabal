@@ -3,7 +3,7 @@ version:                0.4.0
 category:               Data, Sound
 license:                GPL
 license-file:           COPYING
-copyright:              Stefan Kersten, 2007-2010
+copyright:              Stefan Kersten, 2007-2009
 author:                 Stefan Kersten
 maintainer:             Stefan Kersten <sk@k-hornz.de>
 stability:              Experimental
@@ -26,13 +26,26 @@ extra-source-files:
 library
   build-depends:        array,
                         base >= 4 && < 5,
-                        haskell98
+                        haskell98,
+                        iteratee >= 0.3,
+                        ListLike,
+                        storablevector,
+                        vector
   build-tools:          c2hs >= 0.15
+  extensions:           DeriveDataTypeable
+                        ExistentialQuantification
+                        FlexibleContexts
+                        ForeignFunctionInterface
+                        MultiParamTypeClasses
+                        TypeFamilies
   exposed-modules:      Sound.File.Sndfile
-                        Sound.File.Sndfile.Buffer
+                        Sound.File.Sndfile.Wrapped.StorableVector
+                        Sound.File.Sndfile.Wrapped.Vector
   other-modules:        C2HS
+                        Sound.File.Sndfile.Buffer
                         Sound.File.Sndfile.Buffer.Internal
                         Sound.File.Sndfile.Buffer.Sample
+                        Sound.File.Sndfile.Enumerator
                         Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface
   ghc-options:          -Wall -fno-warn-name-shadowing

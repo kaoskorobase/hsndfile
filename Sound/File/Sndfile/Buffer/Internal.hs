@@ -1,3 +1,4 @@
+{-# LANGUAGE ForeignFunctionInterface #-}
 module Sound.File.Sndfile.Buffer.Internal
 (
     checkSampleBounds

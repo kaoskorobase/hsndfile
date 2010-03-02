@@ -1,0 +1,26 @@
+name:                   hsndfile-vector
+version:                0.4.0
+category:               Data, Sound
+license:                GPL
+license-file:           COPYING
+copyright:              Stefan Kersten, 2007-2009
+author:                 Stefan Kersten
+maintainer:             Stefan Kersten <sk@k-hornz.de>
+stability:              Experimental
+homepage:               http://haskell.org/haskellwiki/Hsndfile
+synopsis:               Haskell bindings for libsndfile (Data.Vector interface).
+description:            Haskell bindings for libsndfile (Data.Vector interface).
+                        .
+                        libsndfile is a comprehensive C library for reading
+                        and writing a large number of soundfile formats:
+                        <http://www.mega-nerd.com/libsndfile/>.
+tested-with:            GHC==6.8.*, GHC==6.10.1, GHC==6.10.4
+build-type:             Simple
+cabal-version:          >= 1.2
+
+library
+  build-depends:        base >= 4 && < 5,
+                        hsndfile >= 0.4.0,
+                        vector >= 0.5
+  exposed-modules:      Sound.File.Sndfile.Buffer.Vector
+  ghc-options:          -Wall -fno-warn-name-shadowing

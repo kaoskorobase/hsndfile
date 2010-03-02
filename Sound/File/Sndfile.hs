@@ -29,16 +29,9 @@ module Sound.File.Sndfile
   , Exception(..), catch
     -- *Header string field access
   , StringType(..), getString, setString
-    -- *Enumerators and Iteratees
-  , module Sound.File.Sndfile.Enumerator
 ) where
 
 import Prelude hiding (catch, interact, readFile)
 import Sound.File.Sndfile.Buffer
--- import Sound.File.Sndfile.Buffer.Storable ()
--- import Sound.File.Sndfile.Buffer.IOCArray ()
-import Sound.File.Sndfile.Enumerator
 import Sound.File.Sndfile.Exception
 import Sound.File.Sndfile.Interface
-
--- EOF
