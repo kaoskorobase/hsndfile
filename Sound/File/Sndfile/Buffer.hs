@@ -1,8 +1,27 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module Sound.File.Sndfile.Buffer (
     module Sound.File.Sndfile.Buffer.Sample
+  , Buffer(..)
+  , hGetBuffer
+  , hGetContents
+  , readFile
+  , hGetContentChunks
+  , readFileChunks
 ) where
 
+import Control.Exception (bracket)
+import Foreign
+import Prelude hiding (readFile)
+import Sound.File.Sndfile.Interface
 import Sound.File.Sndfile.Buffer.Sample
+import System.IO.Unsafe (unsafeInterleaveIO)
+
+class Buffer a e where
+    fromForeignPtr :: ForeignPtr e -> Count -> IO (a e)
+    toForeignPtr :: a e -> IO (ForeignPtr e, Int, Int)
+    -- unsafeFromPtr :: Ptr e -> Count -> IO (a e)
+    -- unsafeToPtr :: a e -> IO (Ptr e, Count)
 
 -- |Return an array with the requested number of items. The 'count' parameter
 -- must be an integer product of the number of channels or an error will
@@ -20,6 +39,16 @@ import Sound.File.Sndfile.Buffer.Sample
 -- |Return an array with the requested number of frames of data.
 -- The resulting array size is equal to the product of the number of frames
 -- `n' and the number of channels in the soundfile.
+hGetBuffer :: forall a e . (Sample e, Storable e, Buffer a e) => Handle -> Count -> IO (Maybe (a e))
+hGetBuffer h n = do
+    p <- mallocBytes (sizeOf (undefined :: e) * numChannels * n)
+    n' <- hGetBuf h p n
+    if n' == 0
+        then return Nothing
+        else newForeignPtr_ p >>= flip fromForeignPtr (n * numChannels) >>= return . Just
+    where
+        numChannels = (channels.hInfo) h
+
 -- hReadFrames :: (Sample ia ma e m, Num e, Monad m) => Handle -> Count -> m (Maybe (IBuffer e))
 -- hReadFrames h n = do
 --     b  <- newBuffer (0, si)
@@ -33,24 +62,36 @@ import Sound.File.Sndfile.Buffer.Sample
 --         f2s = (* channels (hInfo h))
 --         si  = (f2s n) - 1
 
--- foldlChunks' :: (a -> b -> a) -> a -> Stream b -> a
--- foldlChunks' f z = go z
---   where go a _ | a `seq` False = undefined
---  go a Empty = a
---  go a (Stream c cs) = let a' = f a c in a' `seq` go a' cs
--- {-# INLINE foldlChunks' #-}
+hGetContents :: (Sample e, Buffer a e) => Handle -> IO (Info, Maybe (a e))
+hGetContents h = (,) info `fmap` hGetBuffer h (frames info)
+    where info = hInfo h
 
--- hGetContentFrames :: Sample e IO => Count -> Handle -> IO [IBuffer e]
--- hGetContentFrames n h = lazyread
---  where
---      lazyread = unsafeInterleaveIO loop
---      loop = do
---          d <- hReadFrames h n
---          case d of
---              Just arr -> do
---                  ds <- lazyread
---                  return (arr:ds)
---              Nothing -> return []
+readFile :: (Sample e, Buffer a e) => FilePath -> IO (Info, Maybe (a e))
+readFile path = do
+    bracket
+      (openFile path ReadMode defaultInfo)
+      (hClose)
+      (hGetContents)
+
+hGetContentChunks :: (Sample e, Buffer a e) => Count -> Handle -> IO (Info, [a e])
+hGetContentChunks n h = (,) (hInfo h) `fmap` lazyread
+ where
+     {-# NOINLINE lazyread #-}
+     lazyread = unsafeInterleaveIO loop
+     loop = do
+         r <- hGetBuffer h n
+         case r of
+             Just b -> do
+                 bs <- lazyread
+                 return (b:bs)
+             Nothing -> return []
+
+readFileChunks :: (Sample e, Buffer a e) => Count -> FilePath -> IO (Info, [a e])
+readFileChunks n path = do
+    bracket
+      (openFile path ReadMode defaultInfo)
+      (hClose)
+      (hGetContentChunks n)
 
 -- interact :: (MArray a e m, Sample e m) => (e -> e) -> MBuffer e -> Handle -> Handle -> m ()
 -- interact f buffer hIn hOut = do

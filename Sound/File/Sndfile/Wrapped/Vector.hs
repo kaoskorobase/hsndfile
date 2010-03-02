@@ -9,6 +9,7 @@ module Sound.File.Sndfile.Wrapped.Vector (
   , StorableVector
 ) where
 
+import           Control.Monad
 import           Data.Iteratee.Base.LooseMap
 import qualified Data.Iteratee.Base.StreamChunk as SC
 import qualified Data.Vector.Generic as V
@@ -20,7 +21,7 @@ import           Foreign.ForeignPtr
 import           Foreign.Marshal.Array
 import           Foreign.Ptr
 import           Foreign.Storable
-import           Control.Monad
+import           Sound.File.Sndfile.Buffer
 
 -- |Wrap a Data.Vector.Vector
 newtype Vector v a = Vector { unWrap :: v a }
@@ -72,14 +73,20 @@ instance (V.Vector v a) => SC.StreamChunk (Vector v) a where
     cMap = vmap
 
 -- | Create a Vector from a pointer and an element count.
-createSV :: (Storable el) => Ptr el -> Int -> IO (SV.Vector el)
-createSV p n = do
+createCopySV :: (Storable el) => Ptr el -> Int -> IO (SV.Vector el)
+createCopySV p n = do
     mv@(SV.MVector _ _ fp) <- MV.unsafeNew n
     withForeignPtr fp $ \newp -> copyArray newp p n
     V.unsafeFreeze mv
 
-instance forall el . (Storable el) => SC.ReadableChunk StorableVector el where
-    readFromPtr p l | rem l s == 0 = wrap `fmap` createSV p n
-                    | otherwise    = error $ "Error reading stream: invalid number of bytes: " ++ show l ++ " size: " ++ show s 
+instance Storable el => SC.ReadableChunk StorableVector el where
+    readFromPtr p l | rem l s == 0 = wrap `fmap` createCopySV p n
+                    | otherwise    = error $ "ReadableChunk.readFromPtr (Sound.File.Sndfile.Wrapped.Vector.Vector): invalid number of bytes: " ++ show l ++ " size: " ++ show s
         where s = sizeOf (undefined :: el)
               n = l `div` s
+
+instance Storable el => Buffer StorableVector el where
+    fromForeignPtr p l = wrap `fmap` V.unsafeFreeze (SV.MVector 0 l p)
+    toForeignPtr v = do
+        (SV.MVector i n p) <- V.unsafeThaw (unWrap v)
+        return (p, i, n)

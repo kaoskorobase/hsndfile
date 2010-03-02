@@ -17,22 +17,23 @@ module Sound.File.Sndfile
     -- *Stream handle operations
     Handle, hInfo, hIsSeekable,
     IOMode(..), openFile, getFileInfo, hFlush, hClose,
-    SeekMode(..), hSeek, hSeekRead, hSeekWrite,
+    SeekMode(..), hSeek, hSeekRead, hSeekWrite
     -- *I\/O functions
-    Sample(..),
-    -- hReadSamples,
-    -- hReadFrames,
+  , Sample(..)
+  , Buffer(..)
+  , hGetBuffer
+  , hGetContents, readFile
+  , hGetContentChunks, readFileChunks
     -- interact,
-    --IBuffer(..),
     -- *Exception handling
-    Exception(..), catch,
+  , Exception(..), catch
     -- *Header string field access
-    StringType(..), getString, setString
+  , StringType(..), getString, setString
     -- *Enumerators and Iteratees
-    , module Sound.File.Sndfile.Enumerator
+  , module Sound.File.Sndfile.Enumerator
 ) where
 
-import Prelude hiding (catch, interact)
+import Prelude hiding (catch, interact, readFile)
 import Sound.File.Sndfile.Buffer
 -- import Sound.File.Sndfile.Buffer.Storable ()
 -- import Sound.File.Sndfile.Buffer.IOCArray ()

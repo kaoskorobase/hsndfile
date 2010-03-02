@@ -63,7 +63,7 @@ instance (Storable el, Storable el') => LooseMap Vector el el' where
     looseMap f = wrap . SV.map f . unWrap
 
 instance forall el. (Storable el) => SC.ReadableChunk Vector el where
-    readFromPtr p l | rem l s /= 0 = error $ "Error reading stream: invalid number of bytes: " ++ (show l) ++ " size: " ++ show s
-                    | otherwise    = wrap `fmap` (SV.create n $ \newp -> copyArray newp p n)
+    readFromPtr p l | rem l s == 0 = wrap `fmap` (SV.create n $ \newp -> copyArray newp p n)
+                    | otherwise    = error $ "ReadableChunk.readFromPtr (Sound.File.Sndfile.Wrapped.StorableVector.Vector): invalid number of bytes: " ++ (show l) ++ " size: " ++ show s
         where s = sizeOf (undefined :: el)
               n = l `div` s
