@@ -9,33 +9,13 @@ import Prelude hiding (interact)
 import Sound.File.Sndfile.Buffer.Internal
 import Sound.File.Sndfile.Interface
 
--- |The class Sample is used for polymorphic I\/O on a 'Handle', and is
--- parameterized with the element type that is to be read from a file.
+-- |The class Sample is used for polymorphic I\/O on a 'Handle', and is parameterized with the element type that is to be read from a file.
 --
--- It is important to note that the data type used by the calling program and
--- the data format of the file do not need to be the same. For instance, it is
--- possible to open a 16 bit PCM encoded WAV file and read the data in
--- floating point format. The library seamlessly converts between the two
--- formats on-the-fly; the Haskell interface currently supports reading and
--- writing 'Double' or 'Float' floating point values, as well as 'Word16' and
--- 'Word32' integer values.
+-- It is important to note that the data type used by the calling program and the data format of the file do not need to be the same. For instance, it is possible to open a 16 bit PCM encoded WAV file and read the data in floating point format. The library seamlessly converts between the two formats on-the-fly; the Haskell interface currently supports reading and writing 'Double' or 'Float' floating point values, as well as 'Word16' and 'Word32' integer values.
 --
--- When converting between integer data and floating point data, the following
--- rules apply: The default behaviour when reading floating point data from a
--- file with integer data is normalisation. Regardless of whether data in the
--- file is 8, 16, 24 or 32 bit wide, the data will be read as floating point
--- data in the range [-1.0, 1.0]. Similarly, data in the range [-1.0, 1.0]
--- will be written to an integer PCM file so that a data value of 1.0 will be
--- the largest allowable integer for the given bit width. This normalisation
--- can be turned on or off using the command interface [TODO: implementation
--- missing in Haskell].
+-- When converting between integer data and floating point data, the following rules apply: The default behaviour when reading floating point data from a file with integer data is normalisation. Regardless of whether data in the file is 8, 16, 24 or 32 bit wide, the data will be read as floating point data in the range [-1.0, 1.0]. Similarly, data in the range [-1.0, 1.0] will be written to an integer PCM file so that a data value of 1.0 will be the largest allowable integer for the given bit width. This normalisation can be turned on or off using the command interface (/implementation missing in Haskell/).
 --
--- 'hGetSamples' and 'hGetFrames' return the number of items read. Unless the
--- end of the file was reached during the read, the return value should equal
--- the number of items requested. Attempts to read beyond the end of the file
--- will not result in an error but will cause the read functions to return
--- less than the number of items requested or 0 if already at the end of the
--- file.
+-- 'hGetSamples' and 'hGetFrames' return the number of items read. Unless the end of the file was reached during the read, the return value should equal the number of items requested. Attempts to read beyond the end of the file will not result in an error but will cause the read functions to return less than the number of items requested or 0 if already at the end of the file.
 
 class Storable e => Sample e where
     -- | Read a buffer of frames.

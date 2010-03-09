@@ -14,7 +14,6 @@ import System.IO.Unsafe							(unsafePerformIO)
 -- ====================================================================
 -- Basic types
 
-
 -- | Type for expressing sample counts.
 type Count = Int
 
@@ -117,11 +116,9 @@ enum FormatMask
 };
 #endc
 
--- |Stream format specification, consisting of header, sample and endianness
--- formats.
+-- |Stream format specification, consisting of header, sample and endianness formats.
 --
--- Not all combinations of header, sample and endianness formats are valid;
--- valid combinamtions can be checked with the 'checkFormat' function.
+-- Not all combinations of header, sample and endianness formats are valid; valid combinamtions can be checked with the 'checkFormat' function.
 data Format = Format {
     headerFormat :: HeaderFormat,
     sampleFormat :: SampleFormat,
@@ -152,8 +149,7 @@ cFormat (Format hf sf ef) = (cFromEnum hf) .|. (cFromEnum sf) .|. (cFromEnum ef)
 -- ====================================================================
 -- Info
 
--- |The 'Info' structure is for passing data between the calling function and
--- the library when opening a stream for reading or writing.
+-- |The 'Info' structure is for passing data between the calling function and the library when opening a stream for reading or writing.
 data Info = Info {
     frames :: Count,    -- ^Number of frames in file
     samplerate :: Int,  -- ^Audio sample rate
@@ -163,8 +159,7 @@ data Info = Info {
     seekable :: Bool    -- ^'True' when stream is seekable (e.g. local files)
 } deriving (Eq, Show)
 
--- |Return soundfile duration in seconds computed via the 'Info' fields
--- 'frames' and 'samplerate'.
+-- |Return soundfile duration in seconds computed via the 'Info' fields 'frames' and 'samplerate'.
 duration :: Info -> Double
 duration info = (fromIntegral $ frames info) / (fromIntegral $ samplerate info)
 
@@ -172,8 +167,7 @@ duration info = (fromIntegral $ frames info) / (fromIntegral $ samplerate info)
 defaultInfo :: Info
 defaultInfo   = Info 0 0 0 defaultFormat 0 False
 
--- |This function allows the caller to check if a set of parameters in the
--- 'Info' struct is valid before calling 'openFile' ('WriteMode').
+-- |This function allows the caller to check if a set of parameters in the 'Info' struct is valid before calling 'openFile' ('WriteMode').
 --
 -- 'checkFormat' returns 'True' if the parameters are valid and 'False' otherwise.
 
@@ -243,22 +237,13 @@ enum IOMode
 };
 #endc
 
--- |When opening a file for read ('ReadMode'), the format field should be set
--- to 'defaultFormat' before calling 'openFile'. The only exception to this is
--- the case of RAW files, where the caller has to set the samplerate, channels
--- and format fields to valid values. All other fields of the structure are
--- filled in by the library.
+-- |When opening a file for read ('ReadMode'), the format field should be set to 'defaultFormat' before calling 'openFile'. The only exception to this is the case of RAW files, where the caller has to set the samplerate, channels and format fields to valid values. All other fields of the structure are filled in by the library.
 --
--- When opening a file for write ('WriteMode'), the caller must fill in the
--- structure members samplerate, channels, and format.
+-- When opening a file for write ('WriteMode'), the caller must fill in the structure members samplerate, channels, and format.
 --
--- Every call to 'openFile' should be matched with a call to 'hClose' to free
--- up memory allocated during the call to 'openFile'.
+-- Every call to 'openFile' should be matched with a call to 'hClose' to free up memory allocated during the call to 'openFile'.
 --
--- On success, the 'openFile' function returns a 'Handle' which should be
--- passed as the first parameter to all subsequent libsndfile calls dealing
--- with that audio stream. On fail, the 'openFile' function signals an
--- 'Exception'.
+-- On success, the 'openFile' function returns a 'Handle' which should be passed as the first parameter to all subsequent libsndfile calls dealing with that audio stream. On fail, the 'openFile' function signals an 'Exception'.
 openFile :: FilePath -> IOMode -> Info -> IO Handle
 openFile filePath ioMode info =
     withCString filePath (\cFilePath ->
@@ -269,17 +254,14 @@ openFile filePath ioMode info =
             newInfo <- peek cInfo
             return $ Handle newInfo cHandle))
 
--- |The 'hClose' function closes the stream, deallocates its internal buffers
--- and returns () on success or signals an 'Exception' otherwise.
+-- | The 'hClose' function closes the stream, deallocates its internal buffers and returns () on success or signals an 'Exception' otherwise.
 hClose :: Handle -> IO ()
 hClose handle = do
     {#call unsafe sf_close#} $ hPtr handle
     checkHandle nullPtr
     return ()
 
--- |If the stream is opened with 'WriteMode' or 'ReadWriteMode', call the
--- operating system\'s function to force the writing of all file cache buffers
--- to disk. If the file is opened with 'ReadMode' no action is taken.
+-- | If the stream is opened with 'WriteMode' or 'ReadWriteMode', call the operating system\'s function to force the writing of all file cache buffers to disk. If the file is opened with 'ReadMode' no action is taken.
 hFlush :: Handle -> IO ()
 hFlush (Handle _ handle) = {#call unsafe sf_write_sync#} handle
 
@@ -307,8 +289,7 @@ enum SeekMode
 };
 #endc
 
--- Helper function for seeking, modifying either the read pointer, the write
--- pointer, or both.
+-- Helper function for seeking, modifying either the read pointer, the write pointer, or both.
 {-# INLINE hSeek' #-}
 hSeek' :: Maybe IOMode -> Handle -> SeekMode -> Count -> IO Count
 hSeek' ioMode (Handle _ handle) seekMode frames = do
@@ -322,37 +303,21 @@ hSeek' ioMode (Handle _ handle) seekMode frames = do
     checkHandle handle
     return n
 
--- |The file seek functions work much like 'System.IO.hseek' with the
--- exception that the non-audio data is ignored and the seek only moves within
--- the audio data section of the file. In addition, seeks are defined in
--- number of (multichannel) frames. Therefore, a seek in a stereo file from
--- the current position forward with an offset of 1 would skip forward by one
--- sample of both channels.
+-- |The file seek functions work much like 'System.IO.hseek' with the exception that the non-audio data is ignored and the seek only moves within the audio data section of the file. In addition, seeks are defined in number of (multichannel) frames. Therefore, a seek in a stereo file from the current position forward with an offset of 1 would skip forward by one sample of both channels.
 --
--- like lseek(), the whence parameter can be any one of the following three
--- values:
+-- like lseek(), the whence parameter can be any one of the following three values:
 --
--- * 'AbsoluteSeek' - The offset is set to the start of the audio data plus
---   offset (multichannel) frames.
+-- * 'AbsoluteSeek' - The offset is set to the start of the audio data plus offset (multichannel) frames.
 --
--- * 'RelativeSeek' - The offset is set to its current location plus offset
---   (multichannel) frames.
+-- * 'RelativeSeek' - The offset is set to its current location plus offset (multichannel) frames.
 --
--- * 'SeekFromEnd' - The offset is set to the end of the data plus offset
---   (multichannel) frames.
+-- * 'SeekFromEnd' - The offset is set to the end of the data plus offset (multichannel) frames.
 --
--- Internally, libsndfile keeps track of the read and write locations using
--- separate read and write pointers. If a file has been opened with a mode of
--- 'ReadWriteMode', calling either 'hSeekRead' or 'hSeekWrite' allows the read
--- and write pointers to be modified separately. 'hSeek' modifies both the
--- read and the write pointer.
+-- Internally, libsndfile keeps track of the read and write locations using separate read and write pointers. If a file has been opened with a mode of 'ReadWriteMode', calling either 'hSeekRead' or 'hSeekWrite' allows the read and write pointers to be modified separately. 'hSeek' modifies both the read and the write pointer.
 --         
--- Note that the frames offset can be negative and in fact should be when
--- SeekFromEnd is used for the whence parameter.
+-- Note that the frames offset can be negative and in fact should be when SeekFromEnd is used for the whence parameter.
 --         
--- 'hSeek' will return the offset in (multichannel) frames from the start of
--- the audio data, or signal an error when an attempt is made to seek beyond
--- the start or end of the file.
+-- 'hSeek' will return the offset in (multichannel) frames from the start of the audio data, or signal an error when an attempt is made to seek beyond the start or end of the file.
 
 hSeek :: Handle -> SeekMode -> Count -> IO Count
 hSeek = hSeek' Nothing
@@ -387,8 +352,7 @@ enum StringType
 };
 #endc
 
--- |The 'getString' function returns the specificed string from the stream
--- header in the 'Maybe' monad if it exists and 'Nothing' otherwise.
+-- |The 'getString' function returns the specificed string from the stream header in the 'Maybe' monad if it exists and 'Nothing' otherwise.
 getString :: Handle -> StringType -> IO (Maybe String)
 getString (Handle _ handle) t = do
     ptr <- {#call unsafe sf_get_string#} handle (cFromEnum t)
@@ -397,8 +361,7 @@ getString (Handle _ handle) t = do
         else liftM Just $ peekCString =<< (return ptr)
 
 
--- |The 'setString' function sets the string data associated with the
--- respective 'StringType'.
+-- |The 'setString' function sets the string data associated with the respective 'StringType'.
 setString :: Handle -> StringType -> String -> IO ()
 setString (Handle _ handle) t s =
     withCString s (\cs -> do
