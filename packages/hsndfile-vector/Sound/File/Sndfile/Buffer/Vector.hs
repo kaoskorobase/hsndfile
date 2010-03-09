@@ -4,6 +4,7 @@ module Sound.File.Sndfile.Buffer.Vector (
     Buffer
   , toBuffer
   , fromBuffer
+  , withBuffer
 ) where
 
 import qualified Data.Vector.Storable as SV
@@ -14,6 +15,9 @@ newtype Buffer a = Buffer { fromBuffer :: SV.Vector a }
 
 toBuffer :: SV.Vector a -> Buffer a
 toBuffer = Buffer
+
+withBuffer :: (SV.Vector a -> SV.Vector b) -> Buffer a -> Buffer b
+withBuffer f = toBuffer . f . fromBuffer
 
 instance Storable a => SF.Buffer Buffer a where
     fromForeignPtr p i n = return $ toBuffer $ SV.unsafeFromForeignPtr p i n
