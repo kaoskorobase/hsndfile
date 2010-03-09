@@ -1,3 +1,7 @@
+### Version 0.4
+
+* [__USER__] Simplified Buffer API: A single type class, **Buffer**, is provided for **ForeignPtr** based I/O. Instances are provided in separate packages, e.g. [hsndfile-vector](http://hackage.haskell.org/package/hsndfile-vector).
+
 ### Version 0.3.2
 
 * [__USER__] **hsndfile** has been adapted to compile with GHC 6.10. The only
