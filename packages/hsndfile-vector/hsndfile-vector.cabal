@@ -23,4 +23,5 @@ library
                         hsndfile >= 0.4.0,
                         vector >= 0.5
   exposed-modules:      Sound.File.Sndfile.Buffer.Vector
+                        Sound.File.Sndfile.Buffer.Vector.Examples
   ghc-options:          -Wall -fno-warn-name-shadowing
