@@ -16,7 +16,7 @@ description:            Haskell bindings for libsndfile (Data.Vector interface).
                         <http://www.mega-nerd.com/libsndfile/>.
 tested-with:            GHC==6.8.*, GHC==6.10.1, GHC==6.10.4
 build-type:             Simple
-cabal-version:          >= 1.2
+cabal-version:          >= 1.6
 
 library
   build-depends:        base >= 4 && < 5,
@@ -25,3 +25,7 @@ library
   exposed-modules:      Sound.File.Sndfile.Buffer.Vector
                         Sound.File.Sndfile.Buffer.Vector.Examples
   ghc-options:          -Wall -fno-warn-name-shadowing
+
+source-repository head
+  type:             darcs
+  location:         http://code.haskell.org/hsndfile

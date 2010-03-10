@@ -14,7 +14,7 @@ description:            Haskell bindings for /libsndfile/, a comprehensive C lib
                         For more information on /hsndfile/ visit its homepage at <http://haskell.org/haskellwiki/Hsndfile>.
 tested-with:            GHC==6.8.*, GHC==6.10.1, GHC==6.10.4
 build-type:             Simple
-cabal-version:          >= 1.2
+cabal-version:          >= 1.6
 
 extra-source-files:
                         ChangeLog.md
