@@ -1,0 +1,29 @@
+name:                   hsndfile-vector
+version:                0.4.0
+category:               Data, Sound
+license:                GPL
+license-file:           COPYING
+copyright:              Stefan Kersten, 2007-2009
+author:                 Stefan Kersten
+maintainer:             Stefan Kersten <sk@k-hornz.de>
+stability:              Experimental
+homepage:               http://haskell.org/haskellwiki/Hsndfile
+synopsis:               Haskell bindings for libsndfile (Data.StorableVector interface)
+description:            Haskell bindings for libsndfile (@Data.StorableVector@ interface).
+                        .
+                        For more information on /hsndfile/ visit its homepage at <http://haskell.org/haskellwiki/Hsndfile>.
+tested-with:            GHC==6.8.*, GHC==6.10.1, GHC==6.10.4
+build-type:             Simple
+cabal-version:          >= 1.6
+
+library
+  build-depends:        base >= 4 && < 5,
+                        hsndfile >= 0.4,
+                        storablevector >= 0.2
+  exposed-modules:      Sound.File.Sndfile.Buffer.StorableVector
+                        Sound.File.Sndfile.Buffer.StorableVector.Examples
+  ghc-options:          -Wall -fno-warn-name-shadowing
+
+source-repository head
+  type:             darcs
+  location:         http://code.haskell.org/hsndfile
