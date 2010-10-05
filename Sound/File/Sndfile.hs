@@ -21,7 +21,7 @@ module Sound.File.Sndfile
   , Buffer(..)
   , hGetBuffer
   , hGetContents, readFile
-  , hGetContentChunks, readFileChunks
+  -- , hGetContentChunks, readFileChunks
   , hPutBuffer, writeFile
     -- *Exception handling
   , Exception(..), catch
