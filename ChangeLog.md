@@ -1,3 +1,7 @@
+### Version 0.5
+
+* [__USER__] Remove lazy read functions `hGetContentChunks` and `readFileChunks` from library interface. Those functions were implemented incorrectly.
+
 ### Version 0.4
 
 * [__USER__] Simplified Buffer API: A single type class, **Buffer**, is provided for **ForeignPtr** based I/O. Instances are provided in separate packages, e.g. [hsndfile-vector](http://hackage.haskell.org/package/hsndfile-vector).
