@@ -36,7 +36,7 @@ hGetBuffer h n = do
     if n' == 0
         then return Nothing
         else do
-            fp <- newForeignPtr_ p
+            fp <- newForeignPtr finalizerFree p
             Just `fmap` fromForeignPtr fp 0 (n * numChannels)
     where
         numChannels = (channels.hInfo) h
