@@ -19,6 +19,7 @@ cabal-version:          >= 1.6
 extra-source-files:
                         ChangeLog.md
                         README.md
+                        examples/normalize.hs
                         libsndfile/sndfile.h
 
 library
