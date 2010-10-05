@@ -209,12 +209,11 @@ instance Storable (Info) where
 -- ====================================================================
 -- Exceptions
 
-checkHandle :: HandlePtr -> IO HandlePtr
+checkHandle :: HandlePtr -> IO ()
 checkHandle handle = do
     code <- liftM fromIntegral $ {#call unsafe sf_error#} handle
     when (code /= 0) $
         peekCString ({#call pure sf_strerror#} handle) >>= E.throw code
-    return handle
 
 -- ====================================================================
 -- Handle operations
@@ -250,14 +249,14 @@ openFile filePath ioMode info =
         with info (\cInfo -> do
             cHandle <- {#call unsafe sf_open#}
                             cFilePath (cFromEnum ioMode) (castPtr cInfo)
-                            >>= checkHandle
+            checkHandle cHandle
             newInfo <- peek cInfo
             return $ Handle newInfo cHandle))
 
 -- | The 'hClose' function closes the stream, deallocates its internal buffers and returns () on success or signals an 'Exception' otherwise.
 hClose :: Handle -> IO ()
 hClose handle = do
-    {#call unsafe sf_close#} $ hPtr handle
+    _ <- {#call unsafe sf_close#} $ hPtr handle
     checkHandle nullPtr
     return ()
 
@@ -365,6 +364,6 @@ getString (Handle _ handle) t = do
 setString :: Handle -> StringType -> String -> IO ()
 setString (Handle _ handle) t s =
     withCString s (\cs -> do
-        {#call unsafe sf_set_string#} handle (cFromEnum t) cs
+        _ <- {#call unsafe sf_set_string#} handle (cFromEnum t) cs
         checkHandle handle
         return ())

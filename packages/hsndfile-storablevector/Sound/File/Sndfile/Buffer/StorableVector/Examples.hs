@@ -14,5 +14,5 @@ normalizeSoundFile inPath outPath = do
     (info, Just (x :: BV.Buffer Double)) <- SF.readFile inPath
     let n = V.maximum (V.map abs (BV.fromBuffer x))
         y = if n == 0 then x else BV.withBuffer (V.map (/n)) x
-    SF.writeFile info outPath y
+    _ <- SF.writeFile info outPath y
     return ()
