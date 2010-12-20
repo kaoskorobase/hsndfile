@@ -1,43 +1,41 @@
-name:                   hsndfile
-version:                0.5.0
-category:               Data, Sound
-license:                GPL
-license-file:           COPYING
-copyright:              Stefan Kersten, 2007-2010
-author:                 Stefan Kersten
-maintainer:             Stefan Kersten <sk@k-hornz.de>
-stability:              Experimental
-homepage:               http://haskell.org/haskellwiki/Hsndfile
-synopsis:               Haskell bindings for libsndfile
-description:            Haskell bindings for /libsndfile/, a comprehensive C library for reading and writing a large number of soundfile formats by Erik de Castro Lopo (<http://www.mega-nerd.com/libsndfile/>).
+Name:                   hsndfile
+Version:                0.5.0
+Category:               Data, Sound
+License:                GPL
+License-File:           COPYING
+Copyright:              Stefan Kersten, 2007-2010
+Author:                 Stefan Kersten
+Maintainer:             Stefan Kersten <sk@k-hornz.de>
+Stability:              Experimental
+Homepage:               http://haskell.org/haskellwiki/Hsndfile
+Bug-Reports:            https://github.com/kaoskorobase/hsndfile/issues
+Synopsis:               Haskell bindings for libsndfile
+Description:            Haskell bindings for /libsndfile/, a comprehensive C library for reading and writing a large number of soundfile formats by Erik de Castro Lopo (<http://www.mega-nerd.com/libsndfile/>).
                         .
                         For more information on /hsndfile/ visit its homepage at <http://haskell.org/haskellwiki/Hsndfile>.
-tested-with:            GHC==6.8.*, GHC==6.10.1, GHC==6.10.4
-build-type:             Simple
-cabal-version:          >= 1.6
+Tested-With:            GHC==6.8.*, GHC==6.10.1, GHC==6.10.4, GHC==6.12.1, GHC==6.12.3
+Build-Type:             Simple
+Cabal-Version:          >= 1.6
 
-extra-source-files:
+Extra-Source-Files:
                         ChangeLog.md
                         README.md
                         examples/normalize.hs
-                        libsndfile/sndfile.h
 
-library
-  build-depends:        base >= 4 && < 5,
+Library
+  Build-Depends:        base >= 4 && < 5,
                         haskell98
-  build-tools:          c2hs >= 0.15
-  exposed-modules:      Sound.File.Sndfile
+  Build-Tools:          c2hs >= 0.15
+  Exposed-Modules:      Sound.File.Sndfile
                         Sound.File.Sndfile.Buffer
-  other-modules:        C2HS
+  Other-Modules:        C2HS
                         Sound.File.Sndfile.Buffer.Internal
                         Sound.File.Sndfile.Buffer.Sample
                         Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface
-  ghc-options:          -Wall -fno-warn-name-shadowing
-  extra-libraries:      sndfile
-  if os(windows)
-    include-dirs:       libsndfile
+  Ghc-Options:          -Wall -fno-warn-name-shadowing
+  Extra-Libraries:      sndfile
 
-source-repository head
-  type:             darcs
-  location:         http://code.haskell.org/hsndfile
+Source-Repository head
+  Type:                 git
+  Location:             git://github.com/kaoskorobase/hsndfile.git
