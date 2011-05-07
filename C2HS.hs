@@ -63,7 +63,7 @@ import Foreign
 		    -- compilers that export them
 import CForeign
 
-import Monad        (when, liftM)
+import Monad        (liftM)
 
 
 -- Composite marshalling functions
@@ -71,7 +71,10 @@ import Monad        (when, liftM)
 
 -- Strings with explicit length
 --
+withCStringLenIntConv :: Integral t => String -> ((Ptr CChar, t) -> IO a) -> IO a
 withCStringLenIntConv s f    = withCStringLen s $ \(p, n) -> f (p, cIntConv n)
+
+peekCStringLenIntConv :: Integral a => (Ptr CChar, a) -> IO String
 peekCStringLenIntConv (s, n) = peekCStringLen (s, cIntConv n)
 
 -- Marshalling of numerals

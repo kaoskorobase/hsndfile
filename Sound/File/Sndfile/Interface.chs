@@ -3,9 +3,7 @@ module Sound.File.Sndfile.Interface where
 
 import C2HS
 import Control.Monad							(liftM, when)
-import Data.Bits								((.|.), (.&.))
 import qualified Sound.File.Sndfile.Exception	as E
-import System.IO.Unsafe							(unsafePerformIO)
 
 #include <sndfile.h>
 
