@@ -178,8 +178,8 @@ checkFormat info =
 
 -- Storable instance for Info
 instance Storable (Info) where
-    alignment _ = alignment (undefined :: CInt) -- hmm
     sizeOf _ = {#sizeof INFO#}
+    alignment _ = {#alignof INFO#}
     -- Unmarshall Info from C representation
     peek ptr = do
         frames     <- liftM fromIntegral $ {#get SF_INFO.frames#} ptr
