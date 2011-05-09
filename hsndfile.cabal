@@ -28,8 +28,7 @@ Library
   Build-Tools:          c2hs >= 0.16.3
   Exposed-Modules:      Sound.File.Sndfile
                         Sound.File.Sndfile.Buffer
-  Other-Modules:        C2HS
-                        Sound.File.Sndfile.Buffer.Internal
+  Other-Modules:        Sound.File.Sndfile.Buffer.Internal
                         Sound.File.Sndfile.Buffer.Sample
                         Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface

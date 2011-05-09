@@ -1,15 +1,25 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 module Sound.File.Sndfile.Interface where
 
-import C2HS
-import Control.Monad							(liftM, when)
-import Data.Bits								((.|.), (.&.))
+import           Control.Monad (liftM, when)
+import           Foreign
+import           Foreign.C
 import qualified Sound.File.Sndfile.Exception	as E
-import System.IO.Unsafe							(unsafePerformIO)
 
 #include <sndfile.h>
 
 {#context lib="libsndfile" prefix="sf"#}
+
+-- ====================================================================
+-- Utilities
+
+-- | Convert a C enumeration to Haskell.
+cToEnum :: (Integral i, Enum e) => i -> e
+cToEnum  = toEnum . fromIntegral
+
+-- | Convert a Haskell enumeration to C.
+cFromEnum :: (Enum e, Integral i) => e -> i
+cFromEnum  = fromIntegral . fromEnum
 
 -- ====================================================================
 -- Basic types
@@ -174,7 +184,7 @@ defaultInfo   = Info 0 0 0 defaultFormat 0 False
 {-# NOINLINE checkFormat #-}
 checkFormat :: Info -> Bool
 checkFormat info =
-    unsafePerformIO (with info (liftM cToBool . {#call unsafe sf_format_check#} . castPtr))
+    unsafePerformIO (with info (liftM toBool . {#call unsafe sf_format_check#} . castPtr))
 
 -- Storable instance for Info
 instance Storable (Info) where
@@ -295,7 +305,7 @@ hSeek' ioMode (Handle _ handle) seekMode frames = do
     n <- liftM fromIntegral $
             {#call unsafe sf_seek#}
                 handle
-                (cIntConv frames)
+                (fromIntegral frames)
                 ((cFromEnum seekMode) .|. (case ioMode of
                                                 Nothing -> 0
                                                 Just m -> cFromEnum m))
