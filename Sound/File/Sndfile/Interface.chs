@@ -7,6 +7,7 @@ import           Foreign.C
 
 import qualified Sound.File.Sndfile.Exception	as E
 
+#include <stdint.h>
 #include <sndfile.h>
 
 {#context lib="libsndfile" prefix="sf"#}
