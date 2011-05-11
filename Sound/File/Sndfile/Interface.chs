@@ -4,8 +4,10 @@ module Sound.File.Sndfile.Interface where
 import           Control.Monad (liftM, when)
 import           Foreign
 import           Foreign.C
+
 import qualified Sound.File.Sndfile.Exception	as E
 
+#include <stdint.h>
 #include <sndfile.h>
 
 {#context lib="libsndfile" prefix="sf"#}
@@ -75,29 +77,29 @@ enum SampleFormat
     SAMPLE_FORMAT_PCM_16            = SF_FORMAT_PCM_16,
     SAMPLE_FORMAT_PCM_24            = SF_FORMAT_PCM_24,
     SAMPLE_FORMAT_PCM_32            = SF_FORMAT_PCM_32,
-                                    
+
     SAMPLE_FORMAT_PCM_U8            = SF_FORMAT_PCM_U8,
-                                    
+
     SAMPLE_FORMAT_FLOAT             = SF_FORMAT_FLOAT,
     SAMPLE_FORMAT_DOUBLE            = SF_FORMAT_DOUBLE,
-                                    
+
     SAMPLE_FORMAT_ULAW              = SF_FORMAT_ULAW,
     SAMPLE_FORMAT_ALAW              = SF_FORMAT_ALAW,
     SAMPLE_FORMAT_IMA_ADPCM         = SF_FORMAT_IMA_ADPCM,
     SAMPLE_FORMAT_MS_ADPCM          = SF_FORMAT_MS_ADPCM,
-                                    
+
     SAMPLE_FORMAT_GSM610            = SF_FORMAT_GSM610,
     SAMPLE_FORMAT_VOX_ADPCM         = SF_FORMAT_VOX_ADPCM,
-                                    
+
     SAMPLE_FORMAT_G721_32           = SF_FORMAT_G721_32,
     SAMPLE_FORMAT_G723_24           = SF_FORMAT_G723_24,
     SAMPLE_FORMAT_G723_40           = SF_FORMAT_G723_40,
-                                    
+
     SAMPLE_FORMAT_DWVW_12           = SF_FORMAT_DWVW_12,
     SAMPLE_FORMAT_DWVW_16           = SF_FORMAT_DWVW_16,
     SAMPLE_FORMAT_DWVW_24           = SF_FORMAT_DWVW_24,
     SAMPLE_FORMAT_DWVW_N            = SF_FORMAT_DWVW_N,
-                             
+
     SAMPLE_FORMAT_FORMAT_DPCM_8     = SF_FORMAT_DPCM_8,
     SAMPLE_FORMAT_FORMAT_DPCM_16    = SF_FORMAT_DPCM_16
 };
@@ -323,9 +325,9 @@ hSeek' ioMode (Handle _ handle) seekMode frames = do
 -- * 'SeekFromEnd' - The offset is set to the end of the data plus offset (multichannel) frames.
 --
 -- Internally, libsndfile keeps track of the read and write locations using separate read and write pointers. If a file has been opened with a mode of 'ReadWriteMode', calling either 'hSeekRead' or 'hSeekWrite' allows the read and write pointers to be modified separately. 'hSeek' modifies both the read and the write pointer.
---         
+--
 -- Note that the frames offset can be negative and in fact should be when SeekFromEnd is used for the whence parameter.
---         
+--
 -- 'hSeek' will return the offset in (multichannel) frames from the start of the audio data, or signal an error when an attempt is made to seek beyond the start or end of the file.
 
 hSeek :: Handle -> SeekMode -> Count -> IO Count
