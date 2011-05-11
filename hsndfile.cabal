@@ -1,5 +1,5 @@
 Name:                   hsndfile
-Version:                0.5.0
+Version:                0.5.1
 Category:               Data, Sound
 License:                GPL
 License-File:           COPYING
@@ -25,11 +25,10 @@ Extra-Source-Files:
 Library
   Build-Depends:        base >= 4 && < 5,
                         haskell98
-  Build-Tools:          c2hs >= 0.15
+  Build-Tools:          c2hs >= 0.16.3
   Exposed-Modules:      Sound.File.Sndfile
                         Sound.File.Sndfile.Buffer
-  Other-Modules:        C2HS
-                        Sound.File.Sndfile.Buffer.Internal
+  Other-Modules:        Sound.File.Sndfile.Buffer.Internal
                         Sound.File.Sndfile.Buffer.Sample
                         Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface
