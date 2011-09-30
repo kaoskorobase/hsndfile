@@ -20,9 +20,7 @@ data Exception =
   | UnsupportedEncoding { errorString :: String }
   deriving (Typeable, Show)
 
-instance E.Exception (Exception) where
-    toException   = SomeException
-    fromException = const Nothing
+instance E.Exception (Exception)
 
 -- | Construct 'Exception' from error code and string.
 fromErrorCode :: Int -> String -> Exception
