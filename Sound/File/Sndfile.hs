@@ -26,9 +26,11 @@ module Sound.File.Sndfile
   , Exception(..), catch
     -- *Header string field access
   , StringType(..), getString, setString
+
+  , module Prelude
 ) where
 
-import Prelude hiding (catch, interact, readFile, writeFile)
+import Prelude hiding (catch, readFile, writeFile)
 import Sound.File.Sndfile.Buffer
 import Sound.File.Sndfile.Exception
 import Sound.File.Sndfile.Interface
