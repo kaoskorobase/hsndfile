@@ -1,4 +1,4 @@
--- | "Sound.File.Sndfile" provides a Haskell interface to the libsndfile library by Erik de Castro Lopo (visit the libraries's website at <http://www.mega-nerd.com/libsndfile/>).
+-- | "Sound.File.Sndfile" provides a Haskell interface to the libsndfile library by Erik de Castro Lopo (visit the library's website at <http://www.mega-nerd.com/libsndfile/>).
 -- The API is modeled after the original /C/ API, but type and function identifiers follow Haskell naming conventions.
 module Sound.File.Sndfile
 (

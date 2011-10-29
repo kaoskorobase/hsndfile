@@ -130,7 +130,7 @@ enum FormatMask
 
 -- |Stream format specification, consisting of header, sample and endianness formats.
 --
--- Not all combinations of header, sample and endianness formats are valid; valid combinamtions can be checked with the 'checkFormat' function.
+-- Not all combinations of header, sample and endianness formats are valid; valid combinations can be checked with the 'checkFormat' function.
 data Format = Format {
     headerFormat :: HeaderFormat,
     sampleFormat :: SampleFormat,
@@ -363,7 +363,7 @@ enum StringType
 };
 #endc
 
--- |The 'getString' function returns the specificed string from the stream header in the 'Maybe' monad if it exists and 'Nothing' otherwise.
+-- |The 'getString' function returns the specified string from the stream header in the 'Maybe' monad if it exists and 'Nothing' otherwise.
 getString :: Handle -> StringType -> IO (Maybe String)
 getString (Handle _ handle) t = do
     ptr <- {#call unsafe sf_get_string#} handle (cFromEnum t)
