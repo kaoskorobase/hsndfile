@@ -4,7 +4,7 @@ module Sound.File.Sndfile.Exception (
     catch, try, throw
 ) where
 
-import Control.Exception            (SomeException(..), catch, fromException, toException, try)
+import Control.Exception            (catch, try)
 import qualified Control.Exception  as E
 import Data.Typeable                (Typeable)
 import Prelude hiding               (catch)
