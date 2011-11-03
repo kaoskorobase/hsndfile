@@ -1,4 +1,4 @@
--- | "Sound.File.Sndfile" provides a Haskell interface to the libsndfile library by Erik de Castro Lopo (visit the libraries's website at <http://www.mega-nerd.com/libsndfile/>).
+-- | "Sound.File.Sndfile" provides a Haskell interface to the libsndfile library by Erik de Castro Lopo (visit the library's website at <http://www.mega-nerd.com/libsndfile/>).
 -- The API is modeled after the original /C/ API, but type and function identifiers follow Haskell naming conventions.
 module Sound.File.Sndfile
 (
@@ -26,9 +26,11 @@ module Sound.File.Sndfile
   , Exception(..), catch
     -- *Header string field access
   , StringType(..), getString, setString
+
+  , module Prelude
 ) where
 
-import Prelude hiding (catch, interact, readFile, writeFile)
+import Prelude hiding (catch, readFile, writeFile)
 import Sound.File.Sndfile.Buffer
 import Sound.File.Sndfile.Exception
 import Sound.File.Sndfile.Interface
