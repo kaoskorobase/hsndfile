@@ -1,7 +1,7 @@
 name:                   hsndfile-storablevector
 version:                0.5.0
 category:               Data, Sound
-license:                GPL
+license:                LGPL-2
 license-file:           COPYING
 copyright:              Stefan Kersten, 2007-2010
 author:                 Stefan Kersten
