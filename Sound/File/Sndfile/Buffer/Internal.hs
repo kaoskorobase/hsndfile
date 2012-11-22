@@ -15,7 +15,7 @@ module Sound.File.Sndfile.Buffer.Internal
 
 import Data.Word					(Word16, Word32)
 import Foreign.Ptr     				(Ptr)
-import Foreign.C.Types 				(CLLong)
+import Foreign.C.Types 				(CLLong(..))
 import Sound.File.Sndfile.Interface (Count, Handle(..), HandlePtr)
 
 type IOFunc a = HandlePtr -> Ptr a -> CLLong -> IO CLLong
