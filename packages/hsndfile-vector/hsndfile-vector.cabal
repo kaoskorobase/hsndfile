@@ -1,29 +1,28 @@
-name:                   hsndfile-vector
-version:                0.5.2
-category:               Data, Sound
-license:                LGPL-2
-license-file:           COPYING
-copyright:              Stefan Kersten, 2007-2010
-author:                 Stefan Kersten
-maintainer:             Stefan Kersten <sk@k-hornz.de>
-stability:              Experimental
-homepage:               http://haskell.org/haskellwiki/Hsndfile
-synopsis:               Haskell bindings for libsndfile (Data.Vector interface)
-description:            Haskell bindings for libsndfile (@Data.Vector@ interface).
+Name:                   hsndfile-vector
+Version:                0.5.2
+Category:               Data, Sound
+License:                LGPL-2
+License-File:           COPYING
+Copyright:              Stefan Kersten, 2007-2012
+Author:                 Stefan Kersten
+Maintainer:             Stefan Kersten <sk@k-hornz.de>
+Homepage:               http://haskell.org/haskellwiki/Hsndfile
+Synopsis:               Haskell bindings for libsndfile (Data.Vector interface)
+Description:            Haskell bindings for libsndfile (@Data.Vector@ interface).
                         .
                         For more information on /hsndfile/ visit its homepage at <http://haskell.org/haskellwiki/Hsndfile>.
-tested-with:            GHC==6.8.*, GHC==6.10.1, GHC==6.10.4
-build-type:             Simple
-cabal-version:          >= 1.6
+Tested-With:            GHC==6.8.*, GHC==6.10.1, GHC==6.10.4
+Build-Type:             Simple
+Cabal-Version:          >= 1.6
 
-library
-  build-depends:        base >= 4 && < 5,
-                        hsndfile >= 0.4,
-                        vector >= 0.5
-  exposed-modules:      Sound.File.Sndfile.Buffer.Vector
+Library
+  Build-Depends:        base >= 4 && < 5
+                      , hsndfile >= 0.4
+                      , vector >= 0.5
+  Exposed-Modules:      Sound.File.Sndfile.Buffer.Vector
                         Sound.File.Sndfile.Buffer.Vector.Examples
-  ghc-options:          -Wall -fno-warn-name-shadowing
+  Ghc-Options:          -Wall -fno-warn-name-shadowing
 
-source-repository head
-  type:             darcs
-  location:         http://code.haskell.org/hsndfile
+Source-Repository head
+  Type:                 git
+  Location:             git://github.com/kaoskorobase/hsndfile.git

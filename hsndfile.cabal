@@ -6,7 +6,6 @@ License-File:           COPYING
 Copyright:              Stefan Kersten, 2007-2010
 Author:                 Stefan Kersten
 Maintainer:             Stefan Kersten <sk@k-hornz.de>
-Stability:              Experimental
 Homepage:               http://haskell.org/haskellwiki/Hsndfile
 Bug-Reports:            https://github.com/kaoskorobase/hsndfile/issues
 Synopsis:               Haskell bindings for libsndfile
