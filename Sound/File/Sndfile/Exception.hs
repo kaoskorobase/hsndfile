@@ -1,10 +1,9 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 module Sound.File.Sndfile.Exception (
-    Exception(..),
-    catch, try, throw
+  Exception(..)
+, fromErrorCode
 ) where
 
-import Control.Exception            (catch, try)
 import qualified Control.Exception  as E
 import Data.Typeable                (Typeable)
 import Prelude hiding               (catch)
@@ -22,18 +21,10 @@ data Exception =
 
 instance E.Exception (Exception)
 
--- | Construct 'Exception' from error code and string.
+-- | Construct 'Exception' from error code and message.
 fromErrorCode :: Int -> String -> Exception
 fromErrorCode 1 = UnrecognisedFormat
 fromErrorCode 2 = SystemError
 fromErrorCode 3 = MalformedFile
 fromErrorCode 4 = UnsupportedEncoding
 fromErrorCode _ = Exception
-
--- |Catch values of type 'Exception'.
--- catch :: IO a -> (Exception -> IO a) -> IO a
--- catch = E.catch
-
--- | Throw 'Exception' according to error code and string
-throw :: Int -> String -> a
-throw code str = E.throw (fromErrorCode code str)

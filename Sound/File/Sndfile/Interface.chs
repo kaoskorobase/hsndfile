@@ -1,10 +1,10 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 module Sound.File.Sndfile.Interface where
 
+import qualified Control.Exception as E
 import           Control.Monad (liftM, when)
 import           Foreign
 import           Foreign.C
-
 import qualified Sound.File.Sndfile.Exception	as E
 
 #include <stdint.h>
@@ -229,7 +229,7 @@ checkHandle :: HandlePtr -> IO ()
 checkHandle handle = do
     code <- liftM fromIntegral $ {#call unsafe sf_error#} handle
     when (code /= 0) $
-        peekCString ({#call pure sf_strerror#} handle) >>= E.throw code
+        peekCString ({#call pure sf_strerror#} handle) >>= E.throw . E.fromErrorCode code
 
 -- ====================================================================
 -- Handle operations

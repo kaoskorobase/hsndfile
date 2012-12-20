@@ -14,7 +14,6 @@ import Control.Exception (bracket)
 import Control.Monad
 import Foreign
 import Prelude hiding (readFile, writeFile)
-import Sound.File.Sndfile.Exception (throw)
 import Sound.File.Sndfile.Interface
 import Sound.File.Sndfile.Buffer.Sample (Sample(..))
 
@@ -58,10 +57,9 @@ hPutBuffer :: forall a e . (Sample e, Storable e, Buffer a e) => Handle -> a e -
 hPutBuffer h buffer = do
     (fp, i, n) <- toForeignPtr buffer
     if n `mod` numChannels /= 0
-        then throw 0 "hPutBuffer: invalid buffer size (not a multiple of channel count)"
-        else
-            withForeignPtr fp $ \ptr ->
-                hPutBuf h (ptr `advancePtr` i) (n `div` numChannels)
+        then error "hPutBuffer: invalid buffer size (not a multiple of channel count)"
+        else withForeignPtr fp $ \ptr ->
+              hPutBuf h (ptr `advancePtr` i) (n `div` numChannels)
     where
         numChannels = channels $ hInfo h
 
