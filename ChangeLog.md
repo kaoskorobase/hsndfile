@@ -1,12 +1,16 @@
-### Version 0.5
+### v0.6
+
+* Don't export `Control.Exception.catch` and `Prelude` from `Sound.File.Sndfile`
+
+### v0.5
 
 * [__USER__] Remove lazy read functions `hGetContentChunks` and `readFileChunks` from library interface. Those functions were implemented incorrectly.
 
-### Version 0.4
+### v0.4
 
 * [__USER__] Simplified Buffer API: A single type class, **Buffer**, is provided for **ForeignPtr** based I/O. Instances are provided in separate packages, e.g. [hsndfile-vector](http://hackage.haskell.org/package/hsndfile-vector).
 
-### Version 0.3.2
+### v0.3.2
 
 * [__USER__] **hsndfile** has been adapted to compile with GHC 6.10. The only
   visible change is in exception handling:
@@ -15,7 +19,7 @@
     * The new generalized functions from `Control.Exception.Exception` are
       used for throwing and handling exceptions
 
-### Version 0.2.0
+### v0.2.0
 
 * [__BUGFIX__] Fix exception throwing Exceptions detected in library code are
   now actually raised. Exception has been factored into
