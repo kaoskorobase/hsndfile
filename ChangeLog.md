@@ -1,4 +1,4 @@
-### v0.7
+### [v0.7](https://github.com/kaoskorobase/hsndfile/tree/v0.7.1)
 
 * Read and write signed instead of unsigned integer samples and rename `sf_readf_wordXX` and `sf_writef_wordXX` to `sf_readf_intXX` and `sf_writef_intXX`, respectively
 * Add new supported header and sample formats
