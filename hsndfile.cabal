@@ -1,9 +1,9 @@
 Name:                   hsndfile
-Version:                0.6.0
+Version:                0.7.0
 Category:               Data, Sound
 License:                LGPL-2.1
 License-File:           COPYING
-Copyright:              Stefan Kersten, 2007-2010
+Copyright:              Stefan Kersten, 2007-2013
 Author:                 Stefan Kersten
 Maintainer:             Stefan Kersten <sk@k-hornz.de>
 Homepage:               http://haskell.org/haskellwiki/Hsndfile
