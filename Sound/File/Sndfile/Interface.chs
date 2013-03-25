@@ -3,9 +3,10 @@ module Sound.File.Sndfile.Interface where
 
 import qualified Control.Exception as E
 import           Control.Monad (liftM, when)
-import           Foreign
+import           Foreign hiding (unsafePerformIO)
 import           Foreign.C
 import qualified Sound.File.Sndfile.Exception	as E
+import           System.IO.Unsafe (unsafePerformIO)
 
 #include <stdint.h>
 #include <sndfile.h>
