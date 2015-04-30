@@ -244,8 +244,9 @@ checkHandle handle = do
 -- | Abstract file handle.
 data Handle = Handle {
     hInfo :: Info,      -- ^Return the stream 'Info' associated with the 'Handle'.
-    hPtr :: HandlePtr
+    hPtr :: HandlePtr   -- ^Return the bare C pointer for the 'Handle'.
 }
+-- | Corresponds to a @SNDFILE*@ in C.
 type HandlePtr = Ptr ()
 
 -- | I\/O mode.
