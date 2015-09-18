@@ -1,5 +1,9 @@
 language: haskell
 ghc: 7.8, 7.10
+addons:
+  apt:
+    packages:
+    - libsndfile1-dev
 install:
   - cabal install c2hs
   - cabal install --enable-tests
