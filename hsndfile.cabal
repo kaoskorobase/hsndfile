@@ -17,7 +17,7 @@ Build-Type:             Simple
 Cabal-Version:          >= 1.6
 
 Extra-Source-Files:
-                        ChangeLog.md
+                        CHANGELOG.md
                         README.md
                         examples/normalize.hs
 
