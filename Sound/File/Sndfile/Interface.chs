@@ -5,7 +5,7 @@ import qualified Control.Exception as E
 import           Control.Monad (liftM, when)
 import           Foreign hiding (unsafePerformIO)
 import           Foreign.C
-import qualified Sound.File.Sndfile.Exception	as E
+import qualified Sound.File.Sndfile.Exception as E
 import           System.IO.Unsafe (unsafePerformIO)
 
 #include <stdint.h>
