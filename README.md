@@ -2,7 +2,7 @@
 
 ### Authors
 
-Copyright (c) Stefan Kersten 2007-2012 with contributions by
+Copyright (c) Stefan Kersten 2007-2015 with contributions by
 
 * Conrad Parker
 * Rohan Drape
