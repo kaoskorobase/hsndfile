@@ -1,0 +1,10 @@
+language: haskell
+ghc: 7.8
+deploy:
+  provider: hackage
+  username: StefanKersten
+  password:
+    secure: JmHk+reqqnRlnvhSQt76BOfp8xq3F58l8KJ6UNDnM2yVwh9Kcz30sx0iSISOi51kc+F/OST1uwr1cn5mu8YC6VaEqXAzUirFYOR1gbwRPEnxYRgIU25RZpsDBV2/nNSJM+q/rGNIOgvJ659KSmv5LxsW0SgS4JAEJ17wpfKaIuc=
+  on:
+    repo: kaoskorobase/hsndfile
+    branch: master
