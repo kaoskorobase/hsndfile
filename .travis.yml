@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 language: haskell
 ghc:
   - '7.4'
