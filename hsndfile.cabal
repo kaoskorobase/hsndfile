@@ -31,7 +31,7 @@ Library
                         Sound.File.Sndfile.Exception
                         Sound.File.Sndfile.Interface
   Ghc-Options:          -Wall -fno-warn-name-shadowing
-  Extra-Libraries:      sndfile
+  Pkgconfig-Depends:	sndfile >= 1.0.25
 
 Source-Repository head
   Type:                 git
