@@ -9,7 +9,7 @@ addons:
     packages:
     - libsndfile1-dev
 install:
-  - cabal install c2hs
+  - cabal install c2hs-0.25.2
   - cabal install --enable-tests
 deploy:
   provider: hackage
