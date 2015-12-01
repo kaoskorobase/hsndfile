@@ -23,7 +23,7 @@ Extra-Source-Files:
 
 Library
   Build-Depends:        base >= 4 && < 5
-  Build-Tools:          c2hs >= 0.16.3 && < 0.26
+  Build-Tools:          c2hs >= 0.27
   Exposed-Modules:      Sound.File.Sndfile
                         Sound.File.Sndfile.Buffer
   Other-Modules:        Sound.File.Sndfile.Buffer.Internal
