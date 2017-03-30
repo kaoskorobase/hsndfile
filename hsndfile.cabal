@@ -32,6 +32,8 @@ Library
                         Sound.File.Sndfile.Interface
   Ghc-Options:          -Wall -fno-warn-name-shadowing
   Pkgconfig-Depends:	sndfile >= 1.0.25
+  if os(darwin)
+    cpp-options: -D_Nullable= -D_Nonnull=
 
 Source-Repository head
   Type:                 git
