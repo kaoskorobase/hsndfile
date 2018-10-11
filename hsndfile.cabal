@@ -34,6 +34,7 @@ Library
   Pkgconfig-Depends:	sndfile >= 1.0.25
   if os(darwin)
     cpp-options: -D_Nullable= -D_Nonnull=
+  extra-lib-dirs:       /usr/local/lib
 
 Source-Repository head
   Type:                 git
