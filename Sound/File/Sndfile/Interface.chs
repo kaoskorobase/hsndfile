@@ -290,9 +290,9 @@ openFile filePath ioMode info =
 --   and returns () on success or signals an 'Exception' otherwise.
 hClose :: Handle -> IO ()
 hClose handle = do
-    _ <- {#call unsafe sf_close#} $ hPtr handle
-    checkHandle nullPtr
-    return ()
+    code <- {#call unsafe sf_close#} $ hPtr handle
+    when (code /= 0) $
+        E.throw $ E.fromErrorCode (fromIntegral code) "closing handle"
 
 -- | If the stream is opened with 'WriteMode' or 'ReadWriteMode', call the
 --   operating system\'s function to force the writing of all file cache
